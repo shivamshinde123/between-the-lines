@@ -14,7 +14,9 @@ $$;
 create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   username citext not null unique,
-  auth_email text not null unique,
+  auth_email citext generated always as (
+    (lower(username::text) || '@auth.between-the-lines.invalid')::citext
+  ) stored unique,
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now()),
   constraint profiles_username_format check (

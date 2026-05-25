@@ -25,6 +25,7 @@ npm install
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
+# Server-only:
 SUPABASE_SERVICE_ROLE_KEY=...
 DEEPSEEK_API_KEY=...
 ```
@@ -52,8 +53,8 @@ They are managed at the repo root or deployment platform level, not inside `fron
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `DEEPSEEK_API_KEY`
+- Server-only: `SUPABASE_SERVICE_ROLE_KEY`
+- Server-only: `DEEPSEEK_API_KEY`
 
 ## Supabase Foundation
 
