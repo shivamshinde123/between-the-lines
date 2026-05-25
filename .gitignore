@@ -10,6 +10,9 @@ node_modules/
 out/
 coverage/
 dist/
+playwright-report/
+test-results/
 
 supabase/.temp/
 vercel-debug.log
+stage1-scaffold/

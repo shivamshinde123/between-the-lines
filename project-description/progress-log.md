@@ -30,3 +30,17 @@
   - `#7` Stage 7: Library Insights Page
   - `#8` Stage 8: Quality, Security, And Deployment Readiness
 - Added and documented the staged delivery plan locally in `project-description/stages.md`.
+- Completed Stage 1 implementation on branch `stage-1-app-bootstrap`:
+  - scaffolded Next.js + TypeScript + App Router + Tailwind CSS
+  - added placeholder routes for `/`, `/login`, `/signup`, `/books/[slug]`, and `/insights`
+  - added environment variable documentation in `.env.example`
+  - added unit test and Playwright smoke-test scaffolding
+  - added a Windows-safe custom e2e runner script for local verification
+- Stage 1 verification completed:
+  - `npm run lint`
+  - `npm run test`
+  - `npm run test:e2e`
+- Stage 1 security review result:
+  - no hardcoded secrets
+  - no client exposure of planned server-only keys
+  - one residual audit item from `next` -> `postcss` reported as moderate with no safe non-breaking fix available through `npm audit`
