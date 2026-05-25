@@ -8,6 +8,11 @@ Between the Lines is a personal book-tracking app with private reading journals 
 - `backend/`: future backend-specific code and services
 - `project-description/`: persistent project context, requirements, roadmap, and progress notes
 
+## Environment
+
+- tracked environment variable examples live at the repository root in `.env.example`
+- frontend code reads values from the runtime environment rather than keeping env files inside `frontend/`
+
 ## Current Direction
 
 - Supabase for auth, database, and storage

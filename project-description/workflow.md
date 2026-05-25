@@ -46,6 +46,7 @@
   - `frontend/` for the web app
   - `backend/` for backend-specific code
 - Avoid ugly numbered folder naming for implementation areas.
+- Keep tracked environment examples at the repository root, not inside `frontend/`.
 - At the end of each stage, clean up:
   - generated folders
   - empty folders
