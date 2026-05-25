@@ -2,7 +2,7 @@ export const plannedRoutes = [
   {
     href: "/",
     label: "Library",
-    description: "Alphabetized book list, search, and your future reading shelf.",
+    description: "Alphabetized books, live search, and your private reading shelf.",
   },
   {
     href: "/login",
@@ -15,11 +15,6 @@ export const plannedRoutes = [
     description: "Create a private library account without exposing email in the UI.",
   },
   {
-    href: "/books/sample-book",
-    label: "Book Detail",
-    description: "Thought entries, timestamps, and the per-book reflection zone.",
-  },
-  {
     href: "/insights",
     label: "Insights",
     description: "Cross-library patterns and recurring themes over time.",
@@ -30,7 +25,7 @@ export const stageMilestones = [
   "Scaffold the Next.js application and shared route shell.",
   "Establish the Supabase data platform and private storage rules.",
   "Add username-based authentication with guarded private routes.",
-  "Prepare the library shell for book and entry CRUD in the next stages.",
+  "Make the private library usable with book CRUD and cover uploads.",
 ] as const;
 
 export function hasUniqueRoutes() {

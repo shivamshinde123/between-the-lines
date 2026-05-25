@@ -92,3 +92,17 @@
 - Stage 3 verification completed:
   - `cd frontend && npm run lint`
   - `cd frontend && npm run build`
+- Started Stage 4 on branch `stage-4-library-crud`.
+- Added library CRUD work:
+  - added book queries for alphabetical listing and per-user lookups
+  - added server actions for create, update, and delete flows
+  - added private cover upload handling and cover replacement cleanup
+  - replaced the home placeholder with a functional searchable library UI
+  - replaced the sample dynamic book page with real per-book loading and ownership checks
+- Stage 4 security review result:
+  - book mutations stay user-scoped through authenticated server actions and Supabase RLS
+  - cover uploads are validated for size and MIME type before storage writes
+  - private cover URLs are signed server-side rather than exposed as public storage objects
+- Stage 4 verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`
