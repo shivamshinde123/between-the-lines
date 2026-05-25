@@ -33,6 +33,14 @@ function validateBookFields(title: string, authorName: string) {
   return null;
 }
 
+function validateBookId(bookId: string) {
+  if (!bookId) {
+    return "Could not find that book.";
+  }
+
+  return null;
+}
+
 async function uploadCover(userId: string, coverFile: File) {
   const validation = validateCoverFile(coverFile);
 
@@ -66,11 +74,13 @@ async function uploadCover(userId: string, coverFile: File) {
 
 async function removeCover(path: string | null) {
   if (!path) {
-    return;
+    return true;
   }
 
   const supabase = await createClient();
-  await supabase.storage.from(BOOK_COVER_BUCKET).remove([path]);
+  const { error } = await supabase.storage.from(BOOK_COVER_BUCKET).remove([path]);
+
+  return !error;
 }
 
 export async function createBook(
@@ -127,8 +137,9 @@ export async function updateBook(
   const authorName = normalizeBookInput(formData.get("authorName"));
   const existingCoverPath = normalizeBookInput(formData.get("existingCoverPath")) || null;
   const coverFile = getOptionalFile(formData, "cover");
+  const bookIdError = validateBookId(bookId);
 
-  const fieldError = validateBookFields(title, authorName);
+  const fieldError = validateBookFields(title, authorName) ?? bookIdError;
 
   if (fieldError) {
     return { error: fieldError };
@@ -147,7 +158,7 @@ export async function updateBook(
   }
 
   const supabase = await createClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("books")
     .update({
       author_name: authorName,
@@ -155,9 +166,11 @@ export async function updateBook(
       title,
     })
     .eq("id", bookId)
-    .eq("user_id", viewer.id);
+    .eq("user_id", viewer.id)
+    .select("id")
+    .maybeSingle();
 
-  if (error) {
+  if (error || !data) {
     if (coverFile && nextCoverPath && nextCoverPath !== existingCoverPath) {
       await removeCover(nextCoverPath);
     }
@@ -180,19 +193,22 @@ export async function deleteBook(formData: FormData) {
   const bookId = normalizeBookInput(formData.get("bookId"));
   const coverPath = normalizeBookInput(formData.get("coverPath")) || null;
   const confirmation = normalizeBookInput(formData.get("confirmation"));
+  const bookIdError = validateBookId(bookId);
 
-  if (confirmation !== "delete") {
+  if (confirmation !== "delete" || bookIdError) {
     return;
   }
 
   const supabase = await createClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("books")
     .delete()
     .eq("id", bookId)
-    .eq("user_id", viewer.id);
+    .eq("user_id", viewer.id)
+    .select("id")
+    .maybeSingle();
 
-  if (!error) {
+  if (!error && data) {
     await removeCover(coverPath);
   }
 

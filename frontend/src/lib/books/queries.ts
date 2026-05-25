@@ -1,5 +1,6 @@
 import "server-only";
 
+import { BOOK_COVER_BUCKET } from "@/lib/books/covers";
 import type { BookRecord } from "@/lib/books/types";
 import { createClient } from "@/lib/supabase/server";
 
@@ -42,7 +43,13 @@ export async function getCoverImageUrl(path: string | null) {
   }
 
   const supabase = await createClient();
-  const { data } = await supabase.storage.from("book-covers").createSignedUrl(path, 60 * 60);
+  const { data, error } = await supabase.storage
+    .from(BOOK_COVER_BUCKET)
+    .createSignedUrl(path, 60 * 60);
 
-  return data?.signedUrl ?? null;
+  if (error) {
+    return null;
+  }
+
+  return data.signedUrl;
 }

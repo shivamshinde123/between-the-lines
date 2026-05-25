@@ -1,7 +1,5 @@
 "use client";
 
-import { useRef } from "react";
-
 type DeleteBookButtonProps = {
   action: (formData: FormData) => void | Promise<void>;
   bookId: string;
@@ -13,11 +11,8 @@ export function DeleteBookButton({
   bookId,
   coverPath,
 }: DeleteBookButtonProps) {
-  const formRef = useRef<HTMLFormElement>(null);
-
   return (
     <form
-      ref={formRef}
       action={action}
       onSubmit={(event) => {
         const confirmed = window.confirm(

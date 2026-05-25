@@ -6,14 +6,14 @@ import { getBookForUser, getCoverImageUrl } from "@/lib/books/queries";
 import { requireViewer } from "@/lib/auth/session";
 
 type BookPageProps = {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 };
 
 export default async function BookPage({ params }: BookPageProps) {
   const viewer = await requireViewer();
-  const { slug } = await params;
+  const { slug } = params;
   const book = await getBookForUser(slug, viewer.id);
 
   if (!book) {
