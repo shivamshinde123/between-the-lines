@@ -15,13 +15,14 @@ const insightCards = [
 ] as const;
 
 export default async function InsightsPage() {
-  await requireViewer();
+  const viewer = await requireViewer();
 
   return (
     <SiteFrame
       eyebrow="Private insights"
       title="Patterns your future library will reveal"
       description="This protected area will eventually synthesize how your reading voice evolves across the books in your private library."
+      viewer={viewer}
     >
       <section className="grid gap-5 md:grid-cols-2">
         {insightCards.map((card) => (

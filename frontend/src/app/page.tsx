@@ -14,6 +14,7 @@ export default async function Home() {
       eyebrow="Private library"
       title="Between the Lines"
       description={`Welcome, ${viewer.username ?? "reader"}. This private shelf is ready for the library, entries, and insight flows that follow in the next stages.`}
+      viewer={viewer}
     >
       <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="panel rounded-[28px] p-6 md:p-8">

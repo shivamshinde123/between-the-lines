@@ -5,7 +5,7 @@ import { getPublicSupabaseEnv } from "@/lib/public-env";
 const PUBLIC_PATHS = new Set(["/login", "/signup"]);
 
 function isStaticAsset(pathname: string) {
-  return pathname.includes(".") || pathname.startsWith("/_next");
+  return pathname.startsWith("/_next");
 }
 
 export async function updateSession(request: NextRequest) {

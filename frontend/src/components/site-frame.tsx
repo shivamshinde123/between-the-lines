@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { logout } from "@/lib/auth/actions";
-import { getViewer } from "@/lib/auth/session";
+import type { Viewer } from "@/lib/auth/session";
 import { plannedRoutes } from "@/lib/site";
 
 type SiteFrameProps = {
@@ -9,6 +9,7 @@ type SiteFrameProps = {
   description: string;
   eyebrow: string;
   title: string;
+  viewer?: Viewer | null;
 };
 
 export async function SiteFrame({
@@ -16,8 +17,8 @@ export async function SiteFrame({
   description,
   eyebrow,
   title,
+  viewer = null,
 }: SiteFrameProps) {
-  const viewer = await getViewer();
   const visibleRoutes = viewer
     ? plannedRoutes.filter((route) => route.href !== "/login" && route.href !== "/signup")
     : plannedRoutes.filter((route) => route.href === "/login" || route.href === "/signup");
