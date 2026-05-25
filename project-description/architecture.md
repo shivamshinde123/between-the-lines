@@ -87,3 +87,10 @@
 - `/login` and `/signup` stay public
 - `/`, `/books/[slug]`, and `/insights` require an authenticated session
 - Authenticated users are redirected away from public auth pages back to the library
+
+## Library CRUD Direction
+
+- Books are user-scoped rows in `public.books`
+- Cover uploads go to the private `book-covers` bucket under user-prefixed object paths
+- The library page fetches books alphabetically and signs private cover URLs on the server
+- Create, update, and delete mutations run through server actions with session checks

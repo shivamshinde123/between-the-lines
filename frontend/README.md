@@ -70,6 +70,13 @@ They are managed at the repo root or deployment platform level, not inside `fron
 - Supabase Auth still uses a synthetic internal email behind the scenes
 - Protected routes redirect unauthenticated users back to `/login`
 
+## Library CRUD
+
+- The home page now serves as the private library management screen
+- Books load alphabetically by title and can be filtered in real time by title
+- Create and edit flows support private cover image uploads
+- Delete actions require confirmation before submitting
+
 ## Current Routes
 
 - `/`
