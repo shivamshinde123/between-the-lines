@@ -29,7 +29,7 @@ export const plannedRoutes = [
 export const stageMilestones = [
   "Scaffold the Next.js application and shared route shell.",
   "Add environment conventions for Supabase, DeepSeek, and Vercel.",
-  "Install baseline test tooling before feature work begins.",
+  "Keep the initial app shell focused on product structure and routes.",
   "Keep the repository deployment-ready from the first stage.",
 ] as const;
 

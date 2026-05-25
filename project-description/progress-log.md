@@ -45,6 +45,7 @@
   - remove temporary non-app scaffolding before push
 - Stage 1 verification completed:
   - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`
 - Stage 1 security review result:
   - no hardcoded secrets
   - no client exposure of planned server-only keys
