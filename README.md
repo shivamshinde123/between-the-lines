@@ -47,8 +47,6 @@ npm run dev
 npm run dev
 npm run build
 npm run lint
-npm run test
-npm run test:e2e
 ```
 
 ## Environment Variables

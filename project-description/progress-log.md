@@ -34,12 +34,9 @@
   - scaffolded Next.js + TypeScript + App Router + Tailwind CSS
   - added placeholder routes for `/`, `/login`, `/signup`, `/books/[slug]`, and `/insights`
   - added environment variable documentation in `.env.example`
-  - added unit test and Playwright smoke-test scaffolding
-  - added a Windows-safe custom e2e runner script for local verification
+  - kept the branch focused on app code only per user preference
 - Stage 1 verification completed:
   - `npm run lint`
-  - `npm run test`
-  - `npm run test:e2e`
 - Stage 1 security review result:
   - no hardcoded secrets
   - no client exposure of planned server-only keys
