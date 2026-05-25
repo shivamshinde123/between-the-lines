@@ -28,9 +28,9 @@ export const plannedRoutes = [
 
 export const stageMilestones = [
   "Scaffold the Next.js application and shared route shell.",
-  "Add environment conventions for Supabase, DeepSeek, and Vercel.",
-  "Keep the initial app shell focused on product structure and routes.",
-  "Keep the repository deployment-ready from the first stage.",
+  "Establish the Supabase data platform and private storage rules.",
+  "Add username-based authentication with guarded private routes.",
+  "Prepare the library shell for book and entry CRUD in the next stages.",
 ] as const;
 
 export function hasUniqueRoutes() {

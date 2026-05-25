@@ -28,6 +28,13 @@
 - Supabase Postgres
 - Supabase Storage for book covers
 
+## Authentication Strategy
+
+- Username and password in the app UI
+- Synthetic internal email derived from username for Supabase Auth compatibility
+- Server-side signup flow using a server-only admin client to create and confirm auth users
+- Cookie-backed session refresh and guarded routing through Next.js proxy and server checks
+
 ## AI Integration
 
 - DeepSeek API
@@ -75,6 +82,8 @@
 - generated content
 - last generated timestamp
 
-## Pending Technical Concern
+## Current Route Protection
 
-Supabase Auth natively centers email/phone/OAuth. The user requested a username/password flow. This is feasible, but the implementation path must be chosen before auth work starts.
+- `/login` and `/signup` stay public
+- `/`, `/books/[slug]`, and `/insights` require an authenticated session
+- Authenticated users are redirected away from public auth pages back to the library

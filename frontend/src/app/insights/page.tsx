@@ -1,4 +1,5 @@
 import { SiteFrame } from "@/components/site-frame";
+import { requireViewer } from "@/lib/auth/session";
 
 const insightCards = [
   {
@@ -13,12 +14,14 @@ const insightCards = [
   },
 ] as const;
 
-export default function InsightsPage() {
+export default async function InsightsPage() {
+  await requireViewer();
+
   return (
     <SiteFrame
-      eyebrow="Insights placeholder"
+      eyebrow="Private insights"
       title="Patterns your future library will reveal"
-      description="The full insights page will synthesize your reading voice and recurring concerns across books. This placeholder locks the route and content framing for Stage 7."
+      description="This protected area will eventually synthesize how your reading voice evolves across the books in your private library."
     >
       <section className="grid gap-5 md:grid-cols-2">
         {insightCards.map((card) => (
