@@ -29,4 +29,24 @@
   - `#6` Stage 6: Book-Level AI Reflection
   - `#7` Stage 7: Library Insights Page
   - `#8` Stage 8: Quality, Security, And Deployment Readiness
-- Added and documented the staged delivery plan locally in `project-description/stages.md`.
+- Added and documented the delivery plan locally in `project-description/roadmap.md`.
+- Completed Stage 1 implementation on branch `stage-1-app-bootstrap`:
+  - scaffolded Next.js + TypeScript + App Router + Tailwind CSS
+  - added placeholder routes for `/`, `/login`, `/signup`, `/books/[slug]`, and `/insights`
+  - added environment variable documentation in `.env.example`
+  - kept the branch focused on app code only per user preference
+- Refactored the repository layout to separate product areas cleanly:
+  - moved the Next.js app into `frontend/`
+  - reserved `backend/` for backend-specific code
+  - renamed local planning files away from numbered `stage-*` filenames
+- Added an explicit cleanup rule for every stage:
+  - remove generated folders
+  - remove empty folders
+  - remove temporary non-app scaffolding before push
+- Stage 1 verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`
+- Stage 1 security review result:
+  - no hardcoded secrets
+  - no client exposure of planned server-only keys
+  - one residual audit item from `next` -> `postcss` reported as moderate with no safe non-breaking fix available through `npm audit`
