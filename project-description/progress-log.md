@@ -50,3 +50,29 @@
   - no hardcoded secrets
   - no client exposure of planned server-only keys
   - one residual audit item from `next` -> `postcss` reported as moderate with no safe non-breaking fix available through `npm audit`
+- Started Stage 2 on branch `stage-2-data-platform`.
+- Added Supabase foundation work:
+  - installed `@supabase/supabase-js`
+  - installed `@supabase/ssr`
+  - added browser/server Supabase client helpers in `frontend/src/lib/supabase/`
+  - added username normalization and synthetic internal email helpers in `frontend/src/lib/auth/`
+  - added cover upload rules and object path helpers in `frontend/src/lib/books/`
+  - added initial Supabase migration in `supabase/migrations/`
+  - added `supabase/README.md`
+- Added initial database and storage design:
+  - `profiles`
+  - `books`
+  - `thought_entries`
+  - `generated_insights`
+  - private `book-covers` bucket metadata and storage RLS policies
+  - explicit authenticated grants for public tables to account for newer Supabase Data API exposure behavior
+- Confirmed repository preference:
+  - tracked environment examples stay at the repository root
+  - no environment variable files inside `frontend/`
+- Clarified environment handling constraint:
+  - no frontend-local `.env` files
+  - public Supabase browser values may still be read by frontend runtime code if the frontend connects to Supabase directly
+  - server-only secrets must remain outside frontend code paths
+- Stage 2 verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`

@@ -13,7 +13,14 @@
 
 - `frontend/` for the Next.js web application
 - `backend/` for backend-specific code if and when it is separated from the web app
+- `supabase/` for migrations and Supabase-specific project infrastructure
 - `project-description/` for persistent planning and project memory
+
+## Environment Placement
+
+- Keep tracked environment examples at the repository root.
+- Do not keep environment variable files inside `frontend/`.
+- If the frontend talks directly to Supabase in the browser, the public Supabase URL and publishable key will still be read at runtime by frontend code. Only server-only secrets must stay out of frontend code paths.
 
 ## Data Platform
 

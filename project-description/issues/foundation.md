@@ -26,7 +26,7 @@ Create the initial application foundation for Between the Lines using the approv
   - home page placeholder
   - book detail placeholder
   - insights placeholder
-- Add `.env.example` with documented required variables
+- Add a repository-root `.env.example` with documented required variables
 - Add or improve README setup instructions for local development
 - Ensure the app is structured for Vercel deployment from the start
 
@@ -36,7 +36,7 @@ Create the initial application foundation for Between the Lines using the approv
 - Clean initial folder structure
 - Working lint and test commands
 - Placeholder pages for the main product surfaces
-- Environment variable documentation
+- Repository-root environment variable documentation
 
 ## Acceptance Criteria
 
