@@ -42,3 +42,11 @@
 - Do not touch other repositories on the user's GitHub account.
 - Keep all project context written to this folder.
 - Save meaningful project progress to the Obsidian vault.
+- Keep product code separated by concern:
+  - `frontend/` for the web app
+  - `backend/` for backend-specific code
+- Avoid ugly numbered folder naming for implementation areas.
+- At the end of each stage, clean up:
+  - generated folders
+  - empty folders
+  - temporary scaffolding that is not part of the actual app

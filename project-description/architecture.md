@@ -9,6 +9,12 @@
 - Supabase JavaScript client
 - Vercel deployment target
 
+## Repository Layout
+
+- `frontend/` for the Next.js web application
+- `backend/` for backend-specific code if and when it is separated from the web app
+- `project-description/` for persistent planning and project memory
+
 ## Data Platform
 
 - Supabase Auth
