@@ -62,6 +62,13 @@ They are managed at the repo root or deployment platform level, not inside `fron
 - Username and internal-auth-email helpers live in `src/lib/auth/`
 - Cover upload validation lives in `src/lib/books/`
 - Database migrations live in the root `supabase/migrations/` folder
+- Session refresh and route guards run through `proxy.ts`
+
+## Authentication
+
+- Username/password UX is exposed on `/login` and `/signup`
+- Supabase Auth still uses a synthetic internal email behind the scenes
+- Protected routes redirect unauthenticated users back to `/login`
 
 ## Current Routes
 

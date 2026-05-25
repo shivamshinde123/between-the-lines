@@ -1,4 +1,5 @@
 import { SiteFrame } from "@/components/site-frame";
+import { requireViewer } from "@/lib/auth/session";
 
 type BookPageProps = {
   params: Promise<{
@@ -7,13 +8,15 @@ type BookPageProps = {
 };
 
 export default async function BookPage({ params }: BookPageProps) {
+  const viewer = await requireViewer();
   const { slug } = await params;
 
   return (
     <SiteFrame
-      eyebrow="Book detail placeholder"
+      eyebrow="Private book page"
       title="A book page that will gather your thoughts"
-      description="This route will hold book metadata, thought entries, and the per-book AI reflection. For now it confirms the dynamic page structure and intended content zones."
+      description="This protected route will hold book metadata, thought entries, and the per-book reflection flow once the CRUD stages land."
+      viewer={viewer}
     >
       <section className="grid gap-6 lg:grid-cols-[0.7fr_1.3fr]">
         <div className="panel rounded-[28px] p-6 md:p-8">

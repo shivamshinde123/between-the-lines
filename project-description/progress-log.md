@@ -76,3 +76,19 @@
 - Stage 2 verification completed:
   - `cd frontend && npm run lint`
   - `cd frontend && npm run build`
+- Started Stage 3 on branch `stage-3-authentication-flows`.
+- Added authentication flow work:
+  - added server-side login, signup, and logout actions
+  - added a server-only Supabase admin client for username-backed account creation
+  - added viewer/session helpers for protected routes
+  - added Next.js proxy-based session refresh and auth redirects
+  - replaced auth placeholder pages with working username/password forms
+  - made the shared site frame session-aware with logout behavior
+  - protected `/`, `/books/[slug]`, and `/insights`
+- Stage 3 security review result:
+  - public Supabase values remain separated from server-only secrets
+  - signup uses server-only admin access and does not expose service-role credentials to the client
+  - login failures use generic messaging to reduce user-enumeration leaks
+- Stage 3 verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`

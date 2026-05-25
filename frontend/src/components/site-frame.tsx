@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { logout } from "@/lib/auth/actions";
+import type { Viewer } from "@/lib/auth/session";
 import { plannedRoutes } from "@/lib/site";
 
 type SiteFrameProps = {
@@ -7,14 +9,20 @@ type SiteFrameProps = {
   description: string;
   eyebrow: string;
   title: string;
+  viewer?: Viewer | null;
 };
 
-export function SiteFrame({
+export async function SiteFrame({
   children,
   description,
   eyebrow,
   title,
+  viewer = null,
 }: SiteFrameProps) {
+  const visibleRoutes = viewer
+    ? plannedRoutes.filter((route) => route.href !== "/login" && route.href !== "/signup")
+    : plannedRoutes.filter((route) => route.href === "/login" || route.href === "/signup");
+
   return (
     <div className="page-shell">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
@@ -32,17 +40,42 @@ export function SiteFrame({
               </p>
             </div>
 
-            <nav className="flex flex-wrap gap-3">
-              {plannedRoutes.map((route) => (
+            <div className="flex flex-col gap-4 lg:items-end">
+              <nav className="flex flex-wrap gap-3">
+                {visibleRoutes.map((route) => (
+                  <Link
+                    key={route.href}
+                    href={route.href}
+                    className="rounded-full border border-panel-border bg-white/50 px-4 py-2 text-sm font-medium transition-colors hover:bg-white/80"
+                  >
+                    {route.label}
+                  </Link>
+                ))}
+              </nav>
+
+              {viewer ? (
+                <div className="flex flex-wrap items-center gap-3">
+                  <p className="rounded-full border border-panel-border bg-white/55 px-4 py-2 text-sm text-muted">
+                    Signed in as <span className="font-medium text-foreground">{viewer.username ?? "reader"}</span>
+                  </p>
+                  <form action={logout}>
+                    <button
+                      type="submit"
+                      className="rounded-full border border-panel-border bg-white/70 px-4 py-2 text-sm font-medium transition-colors hover:bg-white"
+                    >
+                      Logout
+                    </button>
+                  </form>
+                </div>
+              ) : (
                 <Link
-                  key={route.href}
-                  href={route.href}
+                  href="/login"
                   className="rounded-full border border-panel-border bg-white/50 px-4 py-2 text-sm font-medium transition-colors hover:bg-white/80"
                 >
-                  {route.label}
+                  Enter your library
                 </Link>
-              ))}
-            </nav>
+              )}
+            </div>
           </div>
         </header>
 

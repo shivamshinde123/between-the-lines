@@ -1,21 +1,26 @@
 import Link from "next/link";
 import { SiteFrame } from "@/components/site-frame";
+import { requireViewer } from "@/lib/auth/session";
 import { plannedRoutes, stageMilestones } from "@/lib/site";
 
-export default function Home() {
+export default async function Home() {
+  const viewer = await requireViewer();
+  const libraryRoutes = plannedRoutes.filter(
+    (route) => route.href !== "/login" && route.href !== "/signup",
+  );
+
   return (
     <SiteFrame
-      eyebrow="Stage 1 foundation"
+      eyebrow="Private library"
       title="Between the Lines"
-      description="A private reading journal for book notes, evolving thoughts, and later AI reflections. This bootstrap stage establishes the product shell and route structure before real data flows arrive."
+      description={`Welcome, ${viewer.username ?? "reader"}. This private shelf is ready for the library, entries, and insight flows that follow in the next stages.`}
+      viewer={viewer}
     >
       <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="panel rounded-[28px] p-6 md:p-8">
-          <p className="text-sm uppercase tracking-[0.22em] text-muted">
-            Product surfaces
-          </p>
+          <p className="text-sm uppercase tracking-[0.22em] text-muted">Your routes</p>
           <div className="mt-5 grid gap-3">
-            {plannedRoutes.map((route) => (
+            {libraryRoutes.map((route) => (
               <Link
                 key={route.href}
                 href={route.href}
@@ -37,9 +42,7 @@ export default function Home() {
 
         <div className="page-grid">
           <div className="panel rounded-[28px] p-6">
-            <p className="text-sm uppercase tracking-[0.22em] text-muted">
-              Current milestone
-            </p>
+            <p className="text-sm uppercase tracking-[0.22em] text-muted">Current milestone</p>
             <ul className="mt-5 space-y-4">
               {stageMilestones.map((milestone) => (
                 <li key={milestone} className="border-l-2 border-accent-soft pl-4">
@@ -50,9 +53,19 @@ export default function Home() {
           </div>
 
           <div className="panel rounded-[28px] p-6">
-            <p className="text-sm uppercase tracking-[0.22em] text-muted">
-              Planned integrations
-            </p>
+            <p className="text-sm uppercase tracking-[0.22em] text-muted">Session state</p>
+            <div className="mt-4 grid gap-3 text-sm">
+              <p className="rounded-[20px] border border-panel-border bg-white/60 px-4 py-3">
+                Signed in as <span className="font-medium">{viewer.username ?? "reader"}</span>
+              </p>
+              <p className="rounded-[20px] border border-panel-border bg-white/60 px-4 py-3 text-muted">
+                Unauthenticated requests are redirected to `/login`.
+              </p>
+            </div>
+          </div>
+
+          <div className="panel rounded-[28px] p-6">
+            <p className="text-sm uppercase tracking-[0.22em] text-muted">Planned integrations</p>
             <div className="mt-4 flex flex-wrap gap-3 text-sm">
               {["Supabase Auth", "Supabase Storage", "DeepSeek", "Vercel"].map(
                 (item) => (
