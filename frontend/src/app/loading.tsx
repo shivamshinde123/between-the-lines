@@ -18,9 +18,9 @@ export default function RootLoading() {
           <div className="panel rounded-[28px] p-6">
             <div className="h-5 w-48 animate-pulse rounded-full bg-white/50" />
             <div className="mt-5 space-y-3">
-              <div className="h-18 animate-pulse rounded-[20px] bg-white/45" />
-              <div className="h-18 animate-pulse rounded-[20px] bg-white/40" />
-              <div className="h-18 animate-pulse rounded-[20px] bg-white/35" />
+              <div className="h-[4.5rem] animate-pulse rounded-[20px] bg-white/45" />
+              <div className="h-[4.5rem] animate-pulse rounded-[20px] bg-white/40" />
+              <div className="h-[4.5rem] animate-pulse rounded-[20px] bg-white/35" />
             </div>
           </div>
         </div>
