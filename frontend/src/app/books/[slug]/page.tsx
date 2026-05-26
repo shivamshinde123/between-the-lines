@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { EntriesClient } from "@/components/entries/entries-client";
+import { createThoughtEntry, updateThoughtEntry } from "@/lib/entries/actions";
+import { listThoughtEntriesForBook } from "@/lib/entries/queries";
 import { SiteFrame } from "@/components/site-frame";
 import { getBookForUser, getCoverImageUrl } from "@/lib/books/queries";
 import { requireViewer } from "@/lib/auth/session";
@@ -21,12 +24,13 @@ export default async function BookPage({ params }: BookPageProps) {
   }
 
   const coverUrl = await getCoverImageUrl(book.cover_path);
+  const entries = await listThoughtEntriesForBook(book.id, viewer.id);
 
   return (
     <SiteFrame
       eyebrow="Private book page"
       title={book.title}
-      description={`by ${book.author_name}. Thought entries and the book-level reflection arrive in the next stages, but the library ownership and metadata are already live.`}
+      description={`by ${book.author_name}. Your reading journal for this book is live, and the book-level reflection layer will arrive in the next stage.`}
       viewer={viewer}
     >
       <section className="grid gap-6 lg:grid-cols-[0.7fr_1.3fr]">
@@ -63,12 +67,12 @@ export default async function BookPage({ params }: BookPageProps) {
         </div>
 
         <div className="page-grid">
-          <div className="panel rounded-[28px] p-6 md:p-8">
-            <h2 className="text-xl font-semibold">Thought entries</h2>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              Timestamped entries for {book.title} will be listed chronologically here in Stage 5.
-            </p>
-          </div>
+          <EntriesClient
+            bookId={book.id}
+            createAction={createThoughtEntry}
+            entries={entries}
+            updateAction={updateThoughtEntry}
+          />
 
           <div className="panel rounded-[28px] p-6 md:p-8">
             <h2 className="text-xl font-semibold">The Book Changed You. How?</h2>

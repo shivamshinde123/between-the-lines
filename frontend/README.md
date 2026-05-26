@@ -77,6 +77,12 @@ They are managed at the repo root or deployment platform level, not inside `fron
 - Create and edit flows support private cover image uploads
 - Delete actions require confirmation before submitting
 
+## Thought Entries
+
+- Book detail pages now load real thought entries in chronological order
+- Entries can be created, edited, and deleted per book
+- Entry timestamps are stored in Supabase and displayed on each entry card
+
 ## Current Routes
 
 - `/`

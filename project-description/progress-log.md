@@ -106,3 +106,16 @@
 - Stage 4 verification completed:
   - `cd frontend && npm run lint`
   - `cd frontend && npm run build`
+- Started Stage 5 on branch `stage-5-reading-entries`.
+- Added thought-entry journal work:
+  - added entry queries for per-book chronological loading
+  - added server actions for entry create, update, and delete flows
+  - replaced the book detail placeholder section with a working journal UI
+  - added clearly displayed created and updated timestamps for each entry
+- Stage 5 security review result:
+  - entry mutations stay user-scoped through authenticated server actions and Supabase RLS
+  - entry writes verify the owning book before mutating entry rows
+  - delete actions require explicit client confirmation before submission
+- Stage 5 verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`
