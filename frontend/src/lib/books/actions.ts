@@ -2,8 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { BOOK_COVER_BUCKET, buildCoverObjectPath, validateCoverFile } from "@/lib/books/covers";
-import { DEFAULT_BOOK_FORM_STATE, type BookFormState } from "@/lib/books/types";
+import {
+  BOOK_COVER_BUCKET,
+  buildCoverObjectPath,
+  validateCoverFile,
+} from "@backend/books/covers";
+import {
+  DEFAULT_BOOK_FORM_STATE,
+  type BookFormState,
+} from "@backend/books/types";
 import { requireViewer } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 
@@ -54,10 +61,12 @@ async function uploadCover(userId: string, coverFile: File) {
   const objectPath = buildCoverObjectPath(userId, coverFile.name);
   const supabase = await createClient();
   const arrayBuffer = await coverFile.arrayBuffer();
-  const { error } = await supabase.storage.from(BOOK_COVER_BUCKET).upload(objectPath, arrayBuffer, {
-    contentType: coverFile.type,
-    upsert: false,
-  });
+  const { error } = await supabase.storage
+    .from(BOOK_COVER_BUCKET)
+    .upload(objectPath, arrayBuffer, {
+      contentType: coverFile.type,
+      upsert: false,
+    });
 
   if (error) {
     return {
@@ -135,7 +144,8 @@ export async function updateBook(
   const bookId = normalizeBookInput(formData.get("bookId"));
   const title = normalizeBookInput(formData.get("title"));
   const authorName = normalizeBookInput(formData.get("authorName"));
-  const existingCoverPath = normalizeBookInput(formData.get("existingCoverPath")) || null;
+  const existingCoverPath =
+    normalizeBookInput(formData.get("existingCoverPath")) || null;
   const coverFile = getOptionalFile(formData, "cover");
   const bookIdError = validateBookId(bookId);
 

@@ -1,7 +1,7 @@
 import "server-only";
 
-import { BOOK_COVER_BUCKET } from "@/lib/books/covers";
-import type { BookRecord } from "@/lib/books/types";
+import { BOOK_COVER_BUCKET } from "@backend/books/covers";
+import type { BookRecord } from "@backend/books/types";
 import { createClient } from "@/lib/supabase/server";
 
 export async function listBooksForUser(userId: string): Promise<BookRecord[]> {
@@ -53,3 +53,4 @@ export async function getCoverImageUrl(path: string | null) {
 
   return data.signedUrl;
 }
+

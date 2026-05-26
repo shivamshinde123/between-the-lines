@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { BookForm } from "@/components/books/book-form";
 import { DeleteBookButton } from "@/components/books/delete-book-button";
 import { createBook, deleteBook, updateBook } from "@/lib/books/actions";
-import type { BookRecord } from "@/lib/books/types";
+import type { BookRecord } from "@backend/books/types";
 
 type LibraryBook = BookRecord & {
   coverUrl: string | null;
@@ -153,3 +153,4 @@ export function LibraryClient({ books }: LibraryClientProps) {
     </section>
   );
 }
+

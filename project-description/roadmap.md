@@ -40,6 +40,13 @@
 - Store generated output and last-generated timestamp.
 - Support manual regeneration on demand.
 
+## Refactor Before Stage 7
+
+- Complete Issue `#15`: folder-level frontend/backend separation refactor.
+- Move reusable server-oriented logic out of `frontend/` and into `backend/` without changing runtime architecture.
+- Keep Next.js-specific runtime entrypoints in `frontend/` so the app stays deployable as one Next.js project.
+- Preserve current behavior while making Stage 7 and Stage 8 code organization cleaner.
+
 ## Stage 7: Library Insights Page
 
 - Build the dedicated insights page.

@@ -1,7 +1,7 @@
 import { LibraryClient } from "@/components/books/library-client";
 import { SiteFrame } from "@/components/site-frame";
 import { requireViewer } from "@/lib/auth/session";
-import { getCoverImageUrl, listBooksForUser } from "@/lib/books/queries";
+import { getCoverImageUrl, listBooksForUser } from "@backend/books/queries";
 import { stageMilestones } from "@/lib/site";
 
 export default async function Home() {
@@ -53,3 +53,4 @@ export default async function Home() {
     </SiteFrame>
   );
 }
+

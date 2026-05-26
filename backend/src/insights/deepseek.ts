@@ -1,7 +1,7 @@
 import "server-only";
 
-import { getDeepseekApiKey } from "@/lib/server-env";
-import type { ThoughtEntryRecord } from "@/lib/entries/types";
+import { getDeepseekApiKey } from "@backend/server-env";
+import type { ThoughtEntryRecord } from "@backend/entries/types";
 
 const DEEPSEEK_MODEL = "deepseek-v4-flash";
 const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
@@ -125,3 +125,4 @@ export async function generateBookShiftReflection(input: {
 
   return parsed.reflection.trim();
 }
+

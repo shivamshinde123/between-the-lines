@@ -3,13 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EntriesClient } from "@/components/entries/entries-client";
 import { createThoughtEntry, updateThoughtEntry } from "@/lib/entries/actions";
-import { listThoughtEntriesForBook } from "@/lib/entries/queries";
+import { listThoughtEntriesForBook } from "@backend/entries/queries";
 import { BookReflectionForm } from "@/components/insights/book-reflection-form";
 import { generateBookReflection } from "@/lib/insights/actions";
-import { canGenerateBookShift } from "@/lib/insights/deepseek";
-import { getBookShiftInsight } from "@/lib/insights/queries";
+import { canGenerateBookShift } from "@backend/insights/deepseek";
+import { getBookShiftInsight } from "@backend/insights/queries";
 import { SiteFrame } from "@/components/site-frame";
-import { getBookForUser, getCoverImageUrl } from "@/lib/books/queries";
+import { getBookForUser, getCoverImageUrl } from "@backend/books/queries";
 import { requireViewer } from "@/lib/auth/session";
 
 type BookPageProps = {

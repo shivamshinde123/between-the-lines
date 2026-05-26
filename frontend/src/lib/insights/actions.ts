@@ -4,15 +4,15 @@ import { revalidatePath } from "next/cache";
 import {
   canGenerateBookShift,
   generateBookShiftReflection,
-} from "@/lib/insights/deepseek";
-import { getBookShiftInsight } from "@/lib/insights/queries";
+} from "@backend/insights/deepseek";
+import { getBookShiftInsight } from "@backend/insights/queries";
 import {
   DEFAULT_REFLECTION_FORM_STATE,
   type ReflectionFormState,
-} from "@/lib/insights/types";
-import { listThoughtEntriesForBook } from "@/lib/entries/queries";
+} from "@backend/insights/types";
+import { listThoughtEntriesForBook } from "@backend/entries/queries";
+import { getBookForUser } from "@backend/books/queries";
 import { requireViewer } from "@/lib/auth/session";
-import { getBookForUser } from "@/lib/books/queries";
 import { createClient } from "@/lib/supabase/server";
 
 function normalizeInput(value: FormDataEntryValue | null) {

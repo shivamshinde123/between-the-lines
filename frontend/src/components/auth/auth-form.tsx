@@ -2,8 +2,8 @@
 
 import type { ReactNode } from "react";
 import { useActionState } from "react";
-import type { AuthFormState } from "@/lib/auth/form-state";
-import { DEFAULT_AUTH_FORM_STATE } from "@/lib/auth/form-state";
+import type { AuthFormState } from "@backend/auth/form-state";
+import { DEFAULT_AUTH_FORM_STATE } from "@backend/auth/form-state";
 import { SubmitButton } from "@/components/auth/submit-button";
 
 type AuthFormProps = {
@@ -76,3 +76,4 @@ export function AuthForm({ action, footer, mode, title }: AuthFormProps) {
     </form>
   );
 }
+

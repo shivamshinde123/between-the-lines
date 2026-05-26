@@ -132,3 +132,18 @@
 - Stage 6 verification completed:
   - `cd frontend && npm run lint`
   - `cd frontend && npm run build`
+- Added follow-up structure issue before Stage 7:
+  - `#15` Refactor: Folder-Level Frontend/Backend Separation Before Stage 7
+  - purpose: move server/data/domain logic into `backend/` for cleaner code organization while keeping a single Next.js deployment
+- Started Issue `#15` on branch `issue-15-frontend-backend-separation`.
+- Completed the folder-level separation refactor:
+  - moved reusable server/data/domain logic into `backend/src/`
+  - kept Next.js-specific runtime adapters, session guards, and server action entrypoints in `frontend/src/lib/`
+  - updated the frontend TypeScript and Next.js config so the app can import backend modules cleanly
+  - removed the duplicated frontend copies of migrated backend modules
+- Issue `#15` verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`
+- Issue `#15` architecture result:
+  - folder-level frontend/backend separation is now in place
+  - the project still deploys as a single Next.js app rather than a separate backend runtime

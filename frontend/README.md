@@ -59,8 +59,9 @@ They are managed at the repo root or deployment platform level, not inside `fron
 ## Supabase Foundation
 
 - App-side Supabase utilities live in `src/lib/supabase/`
-- Username and internal-auth-email helpers live in `src/lib/auth/`
-- Cover upload validation lives in `src/lib/books/`
+- Next.js-specific auth/session entrypoints live in `src/lib/auth/`
+- Next.js-specific mutation entrypoints live in `src/lib/books/`, `src/lib/entries/`, and `src/lib/insights/`
+- Shared backend business logic lives in `../backend/src/`
 - Database migrations live in the root `supabase/migrations/` folder
 - Session refresh and route guards run through `proxy.ts`
 

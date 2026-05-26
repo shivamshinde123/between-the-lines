@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useActionState } from "react";
-import { DEFAULT_BOOK_FORM_STATE, type BookFormState } from "@/lib/books/types";
+import { DEFAULT_BOOK_FORM_STATE, type BookFormState } from "@backend/books/types";
 
 type BookFormProps = {
   action: (state: BookFormState, formData: FormData) => Promise<BookFormState>;
@@ -105,3 +105,4 @@ export function BookForm({
     </form>
   );
 }
+
