@@ -5,8 +5,14 @@ Between the Lines is a personal book-tracking app with private reading journals 
 ## Repository Layout
 
 - `frontend/`: Next.js web application
-- `backend/`: future backend-specific code and services
+- `backend/`: reusable backend/domain logic and server-side data logic used by the app
 - `project-description/`: persistent project context, requirements, roadmap, and progress notes
+
+## Frontend/Backend Boundary
+
+- `frontend/` owns UI routes, client components, Supabase runtime adapters, session guards, and thin Next.js server action entrypoints
+- `backend/` owns reusable domain types, queries, prompt generation, file validation, and other server-side business logic
+- deployment still runs as a single Next.js app rather than separate frontend and backend runtimes
 
 ## Environment
 
