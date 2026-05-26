@@ -161,3 +161,20 @@
 - Stage 7 verification completed:
   - `cd frontend && npm run lint`
   - `cd frontend && npm run build`
+- Started Stage 8 on branch `stage-8-hardening-deploy`.
+- Added production hardening work:
+  - added server-enforced max lengths for book fields, passwords, and thought entries
+  - added root loading, error, and not-found routes for safer runtime behavior
+  - added production security headers and disabled the `x-powered-by` response header
+  - added `noindex` metadata defaults for the private app
+  - finalized Vercel root-directory and environment setup documentation
+- Stage 8 security review result:
+  - browser-safe and server-only environment variables are now documented more explicitly
+  - user-facing error fallback no longer echoes raw server error messages
+  - private app routes now default to noindex and ship basic security headers
+- Stage 8 verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`
+- Stage 8 note:
+  - this stage focused on production hardening, runtime safety, and deployment readiness
+  - no new committed test suite was added in this stage

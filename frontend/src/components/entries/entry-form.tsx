@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import {
   DEFAULT_THOUGHT_ENTRY_FORM_STATE,
+  THOUGHT_ENTRY_MAX_LENGTH,
   type ThoughtEntryFormState,
 } from "@backend/entries/types";
 
@@ -50,6 +51,7 @@ export function EntryForm({
           placeholder={placeholder}
           required
           rows={entryId ? 5 : 6}
+          maxLength={THOUGHT_ENTRY_MAX_LENGTH}
           className="mt-2 w-full resize-y rounded-[18px] border border-panel-border bg-white/70 px-4 py-3 outline-none transition focus:border-accent"
         />
       </div>

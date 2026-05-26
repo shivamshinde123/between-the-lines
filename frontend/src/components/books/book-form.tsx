@@ -2,7 +2,12 @@
 
 import type { ReactNode } from "react";
 import { useActionState } from "react";
-import { DEFAULT_BOOK_FORM_STATE, type BookFormState } from "@backend/books/types";
+import {
+  BOOK_AUTHOR_MAX_LENGTH,
+  BOOK_TITLE_MAX_LENGTH,
+  DEFAULT_BOOK_FORM_STATE,
+  type BookFormState,
+} from "@backend/books/types";
 
 type BookFormProps = {
   action: (state: BookFormState, formData: FormData) => Promise<BookFormState>;
@@ -42,6 +47,7 @@ export function BookForm({
             name="title"
             defaultValue={title}
             required
+            maxLength={BOOK_TITLE_MAX_LENGTH}
             className="mt-2 w-full rounded-[18px] border border-panel-border bg-white/70 px-4 py-3 outline-none transition focus:border-accent"
           />
         </div>
@@ -58,6 +64,7 @@ export function BookForm({
             name="authorName"
             defaultValue={authorName}
             required
+            maxLength={BOOK_AUTHOR_MAX_LENGTH}
             className="mt-2 w-full rounded-[18px] border border-panel-border bg-white/70 px-4 py-3 outline-none transition focus:border-accent"
           />
         </div>
