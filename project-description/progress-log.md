@@ -119,3 +119,16 @@
 - Stage 5 verification completed:
   - `cd frontend && npm run lint`
   - `cd frontend && npm run build`
+- Started Stage 6 on branch `stage-6-book-reflection`.
+- Added book-level reflection work:
+  - added generated-insight query and form state types
+  - added server-only DeepSeek reflection prompt and response parsing
+  - added persisted reflection generation action for `book_shift`
+  - replaced the book-level reflection placeholder with saved output, last-generated time, and regenerate flow
+- Stage 6 security review result:
+  - DeepSeek API usage stays server-side only
+  - reflection prompts are scoped to the selected book's entries only
+  - empty and too-small input states are handled before calling the API
+- Stage 6 verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`
