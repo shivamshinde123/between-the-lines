@@ -71,9 +71,7 @@ export default async function InsightsPage() {
             <div className="mt-6 rounded-[22px] border border-dashed border-panel-border bg-white/40 px-5 py-5 text-sm leading-7 text-muted">
               {hasBooks ? (
                 generationStatus.ok ? (
-                  <p>
-                    Your journal has enough material for cross-library insight generation.
-                  </p>
+                  <p>Your journal has enough material for cross-library insight generation.</p>
                 ) : (
                   <p>{generationStatus.message}</p>
                 )
@@ -104,15 +102,17 @@ export default async function InsightsPage() {
 
                   <div className="space-y-3">
                     <p className="text-xs uppercase tracking-[0.22em] text-muted">Examples</p>
-                    {readingVoiceContent.examples.map((example) => (
+                    {readingVoiceContent.examples.map((example, index) => (
                       <div
-                        key={`${example.bookTitle}-${example.snippet}`}
+                        key={`${index}-${example.bookTitle}-${example.snippet}`}
                         className="rounded-[18px] border border-panel-border bg-white/70 px-4 py-3"
                       >
                         <p className="text-xs uppercase tracking-[0.18em] text-muted">
                           {example.bookTitle}
                         </p>
-                        <p className="mt-2 text-sm leading-6 text-foreground">“{example.snippet}”</p>
+                        <p className="mt-2 text-sm leading-6 text-foreground">
+                          &quot;{example.snippet}&quot;
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -165,15 +165,17 @@ export default async function InsightsPage() {
 
                   <div className="space-y-3">
                     <p className="text-xs uppercase tracking-[0.22em] text-muted">Examples</p>
-                    {recurringThoughtContent.examples.map((example) => (
+                    {recurringThoughtContent.examples.map((example, index) => (
                       <div
-                        key={`${example.bookTitle}-${example.snippet}`}
+                        key={`${index}-${example.bookTitle}-${example.snippet}`}
                         className="rounded-[18px] border border-panel-border bg-white/70 px-4 py-3"
                       >
                         <p className="text-xs uppercase tracking-[0.18em] text-muted">
                           {example.bookTitle}
                         </p>
-                        <p className="mt-2 text-sm leading-6 text-foreground">“{example.snippet}”</p>
+                        <p className="mt-2 text-sm leading-6 text-foreground">
+                          &quot;{example.snippet}&quot;
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -204,4 +206,3 @@ export default async function InsightsPage() {
     </SiteFrame>
   );
 }
-

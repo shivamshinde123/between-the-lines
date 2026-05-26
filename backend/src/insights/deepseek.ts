@@ -14,6 +14,8 @@ import type {
 const DEEPSEEK_MODEL = "deepseek-v4-flash";
 const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
 const DEEPSEEK_TIMEOUT_MS = 20_000;
+const MAX_LIBRARY_PROMPT_ENTRIES = 24;
+const MAX_LIBRARY_PROMPT_CHARS = 8_000;
 
 type DeepSeekMessage = {
   content: string;
@@ -114,7 +116,30 @@ export function canGenerateLibraryInsights(
 }
 
 function buildLibraryChronology(entries: LibraryThoughtEntryRecord[]) {
-  return entries
+  const recentEntries = entries.slice(-MAX_LIBRARY_PROMPT_ENTRIES);
+  const trimmedEntries: LibraryThoughtEntryRecord[] = [];
+  let totalLength = 0;
+
+  // Keep the most recent entries while bounding total prompt size.
+  for (let index = recentEntries.length - 1; index >= 0; index -= 1) {
+    const entry = recentEntries[index];
+    const nextLength =
+      totalLength +
+      entry.content.length +
+      entry.book_title.length +
+      entry.book_author_name.length +
+      64;
+
+    if (trimmedEntries.length > 0 && nextLength > MAX_LIBRARY_PROMPT_CHARS) {
+      break;
+    }
+
+    trimmedEntries.push(entry);
+    totalLength = nextLength;
+  }
+
+  return trimmedEntries
+    .reverse()
     .map(
       (entry, index) =>
         `Entry ${index + 1} | ${entry.created_at}\nBook: ${entry.book_title}\nAuthor: ${entry.book_author_name}\n${entry.content}`,
@@ -182,7 +207,7 @@ async function requestDeepSeekJson(
     });
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
-      throw new Error("DeepSeek timed out while generating the reflection.");
+      throw new Error("DeepSeek timed out while generating a response.");
     }
 
     throw error;
@@ -194,7 +219,7 @@ async function requestDeepSeekJson(
     const responseText = await response.text();
 
     throw new Error(
-      `DeepSeek could not generate the reflection (${response.status}). ${responseText.slice(0, 200)}`,
+      `DeepSeek could not generate a response (${response.status}). ${responseText.slice(0, 200)}`,
     );
   }
 
@@ -202,7 +227,7 @@ async function requestDeepSeekJson(
   const content = payload.choices?.[0]?.message?.content;
 
   if (!content) {
-    throw new Error("DeepSeek returned an empty reflection.");
+    throw new Error("DeepSeek returned empty JSON content.");
   }
 
   return JSON.parse(content) as Record<string, unknown>;

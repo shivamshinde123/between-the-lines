@@ -10,7 +10,7 @@ import {
 } from "@backend/insights/deepseek";
 import { listThoughtEntriesForBook, listThoughtEntriesForLibrary } from "@backend/entries/queries";
 import { getBookForUser } from "@backend/books/queries";
-import { getBookShiftInsight, getLibraryInsight } from "@backend/insights/queries";
+import { getBookShiftInsight } from "@backend/insights/queries";
 import {
   DEFAULT_INSIGHT_FORM_STATE,
   type InsightFormState,
@@ -103,7 +103,6 @@ async function saveLibraryInsight(input: {
   userId: string;
 }) {
   const supabase = await createClient();
-  const existingInsight = await getLibraryInsight(input.insightType, input.userId);
   const now = new Date().toISOString();
   const insightPayload = {
     book_id: null,
@@ -114,13 +113,10 @@ async function saveLibraryInsight(input: {
     user_id: input.userId,
   };
 
-  return existingInsight
-    ? await supabase
-        .from("generated_insights")
-        .update(insightPayload)
-        .eq("id", existingInsight.id)
-        .eq("user_id", input.userId)
-    : await supabase.from("generated_insights").insert(insightPayload);
+  return await supabase.from("generated_insights").upsert(insightPayload, {
+    ignoreDuplicates: false,
+    onConflict: "user_id,insight_type",
+  });
 }
 
 export async function generateReadingVoiceLibraryInsight(
