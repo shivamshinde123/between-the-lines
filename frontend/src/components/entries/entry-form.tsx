@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import {
   DEFAULT_THOUGHT_ENTRY_FORM_STATE,
   type ThoughtEntryFormState,
-} from "@/lib/entries/types";
+} from "@backend/entries/types";
 
 type EntryFormProps = {
   action: (
@@ -73,3 +73,4 @@ export function EntryForm({
     </form>
   );
 }
+

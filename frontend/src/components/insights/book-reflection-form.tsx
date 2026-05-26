@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import {
   DEFAULT_REFLECTION_FORM_STATE,
   type ReflectionFormState,
-} from "@/lib/insights/types";
+} from "@backend/insights/types";
 
 type BookReflectionFormProps = {
   action: (
@@ -48,3 +48,4 @@ export function BookReflectionForm({
     </form>
   );
 }
+

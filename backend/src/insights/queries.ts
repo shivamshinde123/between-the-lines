@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { GeneratedInsightRecord } from "@/lib/insights/types";
+import type { GeneratedInsightRecord } from "@backend/insights/types";
 import { createClient } from "@/lib/supabase/server";
 
 export async function getBookShiftInsight(
@@ -25,3 +25,4 @@ export async function getBookShiftInsight(
 
   return data satisfies GeneratedInsightRecord | null;
 }
+

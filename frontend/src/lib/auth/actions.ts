@@ -2,8 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import type { AuthFormState } from "@/lib/auth/form-state";
-import { isValidUsername, normalizeUsername, USERNAME_MIN_LENGTH, usernameToInternalEmail } from "@/lib/auth/identity";
+import type { AuthFormState } from "@backend/auth/form-state";
+import {
+  isValidUsername,
+  normalizeUsername,
+  USERNAME_MIN_LENGTH,
+  usernameToInternalEmail,
+} from "@backend/auth/identity";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 

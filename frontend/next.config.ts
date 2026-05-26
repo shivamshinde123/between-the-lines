@@ -35,8 +35,9 @@ const nextConfig: NextConfig = {
         remotePatterns: [supabaseRemotePattern],
       }
     : undefined,
+  outputFileTracingRoot: path.join(__dirname, ".."),
   turbopack: {
-    root: path.join(__dirname),
+    root: path.join(__dirname, ".."),
   },
 };
 

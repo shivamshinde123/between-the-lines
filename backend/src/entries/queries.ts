@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { ThoughtEntryRecord } from "@/lib/entries/types";
+import type { ThoughtEntryRecord } from "@backend/entries/types";
 import { createClient } from "@/lib/supabase/server";
 
 export async function listThoughtEntriesForBook(
@@ -22,3 +22,4 @@ export async function listThoughtEntriesForBook(
 
   return data satisfies ThoughtEntryRecord[];
 }
+

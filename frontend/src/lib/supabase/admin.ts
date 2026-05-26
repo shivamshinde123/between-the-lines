@@ -2,7 +2,7 @@ import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
 import { getPublicSupabaseEnv } from "@/lib/public-env";
-import { getServiceRoleKey } from "@/lib/server-env";
+import { getServiceRoleKey } from "@backend/server-env";
 
 export function createAdminClient() {
   const { url } = getPublicSupabaseEnv();
@@ -14,3 +14,4 @@ export function createAdminClient() {
     },
   });
 }
+

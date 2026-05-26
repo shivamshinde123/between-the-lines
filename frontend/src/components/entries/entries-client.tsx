@@ -3,7 +3,7 @@
 import { deleteThoughtEntry } from "@/lib/entries/actions";
 import { EntryForm } from "@/components/entries/entry-form";
 import { DeleteEntryButton } from "@/components/entries/delete-entry-button";
-import type { ThoughtEntryRecord } from "@/lib/entries/types";
+import type { ThoughtEntryRecord } from "@backend/entries/types";
 
 type EntriesClientProps = {
   bookId: string;
@@ -112,3 +112,4 @@ export function EntriesClient({
     </div>
   );
 }
+

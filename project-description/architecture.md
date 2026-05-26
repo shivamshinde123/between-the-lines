@@ -12,9 +12,15 @@
 ## Repository Layout
 
 - `frontend/` for the Next.js web application
-- `backend/` for backend-specific code if and when it is separated from the web app
+- `backend/` for reusable backend/domain logic and server-side data logic
 - `supabase/` for migrations and Supabase-specific project infrastructure
 - `project-description/` for persistent planning and project memory
+
+## Frontend And Backend Boundary
+
+- `frontend/` owns pages, client components, Supabase runtime adapters, auth/session guards, and thin Next.js server action entrypoints
+- `backend/` owns reusable domain types, queries, prompt generation, file-validation rules, and server-only business logic that does not need direct `next/*` coupling
+- The deployed runtime remains a single Next.js app on Vercel rather than a separate frontend app plus backend service
 
 ## Environment Placement
 

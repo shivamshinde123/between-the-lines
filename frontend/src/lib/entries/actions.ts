@@ -1,9 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { DEFAULT_THOUGHT_ENTRY_FORM_STATE, type ThoughtEntryFormState } from "@/lib/entries/types";
+import {
+  DEFAULT_THOUGHT_ENTRY_FORM_STATE,
+  type ThoughtEntryFormState,
+} from "@backend/entries/types";
+import { getBookForUser } from "@backend/books/queries";
 import { requireViewer } from "@/lib/auth/session";
-import { getBookForUser } from "@/lib/books/queries";
 import { createClient } from "@/lib/supabase/server";
 
 function normalizeInput(value: FormDataEntryValue | null) {
