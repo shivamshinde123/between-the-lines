@@ -7,6 +7,11 @@ export type ThoughtEntryRecord = {
   user_id: string;
 };
 
+export type LibraryThoughtEntryRecord = ThoughtEntryRecord & {
+  book_author_name: string;
+  book_title: string;
+};
+
 export type ThoughtEntryFormState = {
   error: string | null;
 };

@@ -147,3 +147,17 @@
 - Issue `#15` architecture result:
   - folder-level frontend/backend separation is now in place
   - the project still deploys as a single Next.js app rather than a separate backend runtime
+- Started Stage 7 on branch `stage-7-library-insights`.
+- Added library insights work:
+  - replaced the placeholder `/insights` page with a real private insights dashboard
+  - added cross-library entry aggregation with book-title attribution
+  - added independent on-demand generation for `reading_voice` and `recurring_thought`
+  - added persisted library-scope insight loading, parsing, and last-generated timestamps
+  - added supporting quoted examples to both saved insight views
+- Stage 7 security review result:
+  - both insight generators use only the authenticated viewer's entries
+  - DeepSeek calls remain server-side only
+  - low-data and empty-library states are blocked before generation
+- Stage 7 verification completed:
+  - `cd frontend && npm run lint`
+  - `cd frontend && npm run build`

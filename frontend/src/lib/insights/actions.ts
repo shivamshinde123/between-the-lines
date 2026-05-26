@@ -3,15 +3,19 @@
 import { revalidatePath } from "next/cache";
 import {
   canGenerateBookShift,
+  canGenerateLibraryInsights,
   generateBookShiftReflection,
+  generateReadingVoiceInsight,
+  generateRecurringThoughtInsight,
 } from "@backend/insights/deepseek";
+import { listThoughtEntriesForBook, listThoughtEntriesForLibrary } from "@backend/entries/queries";
+import { getBookForUser } from "@backend/books/queries";
 import { getBookShiftInsight } from "@backend/insights/queries";
 import {
-  DEFAULT_REFLECTION_FORM_STATE,
-  type ReflectionFormState,
+  DEFAULT_INSIGHT_FORM_STATE,
+  type InsightFormState,
+  type LibraryInsightType,
 } from "@backend/insights/types";
-import { listThoughtEntriesForBook } from "@backend/entries/queries";
-import { getBookForUser } from "@backend/books/queries";
 import { requireViewer } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 
@@ -20,9 +24,9 @@ function normalizeInput(value: FormDataEntryValue | null) {
 }
 
 export async function generateBookReflection(
-  _previousState: ReflectionFormState,
+  _previousState: InsightFormState,
   formData: FormData,
-): Promise<ReflectionFormState> {
+): Promise<InsightFormState> {
   const viewer = await requireViewer();
   const bookId = normalizeInput(formData.get("bookId"));
 
@@ -90,5 +94,115 @@ export async function generateBookReflection(
 
   revalidatePath(`/books/${book.id}`);
 
-  return DEFAULT_REFLECTION_FORM_STATE;
+  return DEFAULT_INSIGHT_FORM_STATE;
+}
+
+async function saveLibraryInsight(input: {
+  content: string;
+  insightType: LibraryInsightType;
+  userId: string;
+}) {
+  const supabase = await createClient();
+  const now = new Date().toISOString();
+  const insightPayload = {
+    book_id: null,
+    content: input.content,
+    insight_type: input.insightType,
+    last_generated_at: now,
+    scope: "library" as const,
+    user_id: input.userId,
+  };
+
+  return await supabase.from("generated_insights").upsert(insightPayload, {
+    ignoreDuplicates: false,
+    onConflict: "user_id,insight_type",
+  });
+}
+
+export async function generateReadingVoiceLibraryInsight(
+  previousState: InsightFormState,
+  formData: FormData,
+): Promise<InsightFormState> {
+  void previousState;
+  void formData;
+
+  const viewer = await requireViewer();
+  const entries = await listThoughtEntriesForLibrary(viewer.id);
+  const generationCheck = canGenerateLibraryInsights(entries);
+
+  if (!generationCheck.ok) {
+    return {
+      error: generationCheck.message,
+    };
+  }
+
+  let content: string;
+
+  try {
+    content = JSON.stringify(await generateReadingVoiceInsight(entries));
+  } catch {
+    return {
+      error: "Could not generate the reading voice insight right now. Please try again.",
+    };
+  }
+
+  const { error } = await saveLibraryInsight({
+    content,
+    insightType: "reading_voice",
+    userId: viewer.id,
+  });
+
+  if (error) {
+    return {
+      error: "Could not save the reading voice insight right now.",
+    };
+  }
+
+  revalidatePath("/insights");
+
+  return DEFAULT_INSIGHT_FORM_STATE;
+}
+
+export async function generateRecurringThoughtLibraryInsight(
+  previousState: InsightFormState,
+  formData: FormData,
+): Promise<InsightFormState> {
+  void previousState;
+  void formData;
+
+  const viewer = await requireViewer();
+  const entries = await listThoughtEntriesForLibrary(viewer.id);
+  const generationCheck = canGenerateLibraryInsights(entries);
+
+  if (!generationCheck.ok) {
+    return {
+      error: generationCheck.message,
+    };
+  }
+
+  let content: string;
+
+  try {
+    content = JSON.stringify(await generateRecurringThoughtInsight(entries));
+  } catch {
+    return {
+      error: "Could not generate the recurring thought insight right now. Please try again.",
+    };
+  }
+
+  const { error } = await saveLibraryInsight({
+    content,
+    insightType: "recurring_thought",
+    userId: viewer.id,
+  });
+
+  if (error) {
+    return {
+      error: "Could not save the recurring thought insight right now.",
+    };
+  }
+
+  revalidatePath("/insights");
+
+  return DEFAULT_INSIGHT_FORM_STATE;
 }

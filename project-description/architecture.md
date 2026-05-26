@@ -114,3 +114,11 @@
 - Reflection generation is triggered on demand from the book detail page
 - Only the selected book's chronological entries are included in the DeepSeek prompt
 - The current implementation uses the official DeepSeek chat endpoint with `deepseek-v4-flash` in non-thinking JSON mode for concise saved output
+
+## Library Insights Direction
+
+- Library-level insights are stored in `public.generated_insights` with `scope = library`
+- `reading_voice` stores a structured JSON payload with a summary and supporting cross-book examples
+- `recurring_thought` stores a structured JSON payload with a pattern name, summary, and supporting examples
+- Generation is on demand from `/insights` and each insight regenerates independently
+- Cross-library prompts use only the current user's chronological entries and include source book titles for example attribution
