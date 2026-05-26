@@ -94,3 +94,10 @@
 - Cover uploads go to the private `book-covers` bucket under user-prefixed object paths
 - The library page fetches books alphabetically and signs private cover URLs on the server
 - Create, update, and delete mutations run through server actions with session checks
+
+## Reading Journal Direction
+
+- Thought entries are user-scoped rows in `public.thought_entries`
+- Book detail pages load entry lists chronologically from oldest to newest
+- Entry create, update, and delete flows run through authenticated server actions
+- Entry mutations verify both book ownership and entry ownership before writes
