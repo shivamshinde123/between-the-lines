@@ -122,6 +122,10 @@ export async function deleteThoughtEntry(formData: FormData) {
     return;
   }
 
+  if (!(await ensureOwnedBook(bookId, viewer.id))) {
+    return;
+  }
+
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("thought_entries")
