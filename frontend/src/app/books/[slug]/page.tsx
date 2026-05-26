@@ -31,6 +31,9 @@ export default async function BookPage({ params }: BookPageProps) {
   const entries = await listThoughtEntriesForBook(book.id, viewer.id);
   const savedReflection = await getBookShiftInsight(book.id, viewer.id);
   const reflectionStatus = canGenerateBookShift(entries);
+  const hasSavedReflection = Boolean(
+    savedReflection?.content?.trim() || savedReflection?.last_generated_at,
+  );
 
   return (
     <SiteFrame
@@ -99,8 +102,8 @@ export default async function BookPage({ params }: BookPageProps) {
             <div className="mt-5 rounded-[22px] border border-panel-border bg-white/50 p-5">
               {savedReflection?.content ? (
                 <div className="space-y-4">
-                  {savedReflection.content.split("\n\n").map((paragraph) => (
-                    <p key={paragraph} className="text-sm leading-7 text-foreground">
+                  {savedReflection.content.split("\n\n").map((paragraph, index) => (
+                    <p key={`${index}-${paragraph.length}`} className="text-sm leading-7 text-foreground">
                       {paragraph}
                     </p>
                   ))}
@@ -120,7 +123,7 @@ export default async function BookPage({ params }: BookPageProps) {
               <BookReflectionForm
                 action={generateBookReflection}
                 bookId={book.id}
-                submitLabel={savedReflection ? "Regenerate reflection" : "Generate reflection"}
+                submitLabel={hasSavedReflection ? "Regenerate reflection" : "Generate reflection"}
               />
             </div>
           </div>

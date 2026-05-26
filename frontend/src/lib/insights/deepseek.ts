@@ -5,6 +5,7 @@ import type { ThoughtEntryRecord } from "@/lib/entries/types";
 
 const DEEPSEEK_MODEL = "deepseek-v4-flash";
 const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
+const DEEPSEEK_TIMEOUT_MS = 20_000;
 
 type DeepSeekMessage = {
   content: string;
@@ -69,25 +70,44 @@ export async function generateBookShiftReflection(input: {
   entries: ThoughtEntryRecord[];
   title: string;
 }) {
-  const response = await fetch(DEEPSEEK_API_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${getDeepseekApiKey()}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      max_tokens: 300,
-      messages: buildBookShiftMessages(input.authorName, input.entries, input.title),
-      model: DEEPSEEK_MODEL,
-      reasoning_effort: "high",
-      response_format: { type: "json_object" },
-      stream: false,
-      thinking: { type: "disabled" },
-    }),
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), DEEPSEEK_TIMEOUT_MS);
+  let response: Response;
+
+  try {
+    response = await fetch(DEEPSEEK_API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${getDeepseekApiKey()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        max_tokens: 300,
+        messages: buildBookShiftMessages(input.authorName, input.entries, input.title),
+        model: DEEPSEEK_MODEL,
+        reasoning_effort: "high",
+        response_format: { type: "json_object" },
+        stream: false,
+        thinking: { type: "disabled" },
+      }),
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error("DeepSeek timed out while generating the reflection.");
+    }
+
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!response.ok) {
-    throw new Error("DeepSeek could not generate the reflection.");
+    const responseText = await response.text();
+
+    throw new Error(
+      `DeepSeek could not generate the reflection (${response.status}). ${responseText.slice(0, 200)}`,
+    );
   }
 
   const payload = (await response.json()) as DeepSeekResponse;
