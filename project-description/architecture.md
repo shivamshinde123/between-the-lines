@@ -101,3 +101,10 @@
 - Book detail pages load entry lists chronologically from oldest to newest
 - Entry create, update, and delete flows run through authenticated server actions
 - Entry mutations verify both book ownership and entry ownership before writes
+
+## Book Reflection Direction
+
+- Book-level reflections are stored in `public.generated_insights` with `scope = book` and `insight_type = book_shift`
+- Reflection generation is triggered on demand from the book detail page
+- Only the selected book's chronological entries are included in the DeepSeek prompt
+- The current implementation uses the official DeepSeek chat endpoint with `deepseek-v4-flash` in non-thinking JSON mode for concise saved output

@@ -4,6 +4,10 @@ import { notFound } from "next/navigation";
 import { EntriesClient } from "@/components/entries/entries-client";
 import { createThoughtEntry, updateThoughtEntry } from "@/lib/entries/actions";
 import { listThoughtEntriesForBook } from "@/lib/entries/queries";
+import { BookReflectionForm } from "@/components/insights/book-reflection-form";
+import { generateBookReflection } from "@/lib/insights/actions";
+import { canGenerateBookShift } from "@/lib/insights/deepseek";
+import { getBookShiftInsight } from "@/lib/insights/queries";
 import { SiteFrame } from "@/components/site-frame";
 import { getBookForUser, getCoverImageUrl } from "@/lib/books/queries";
 import { requireViewer } from "@/lib/auth/session";
@@ -25,12 +29,14 @@ export default async function BookPage({ params }: BookPageProps) {
 
   const coverUrl = await getCoverImageUrl(book.cover_path);
   const entries = await listThoughtEntriesForBook(book.id, viewer.id);
+  const savedReflection = await getBookShiftInsight(book.id, viewer.id);
+  const reflectionStatus = canGenerateBookShift(entries);
 
   return (
     <SiteFrame
       eyebrow="Private book page"
       title={book.title}
-      description={`by ${book.author_name}. Your reading journal for this book is live, and the book-level reflection layer will arrive in the next stage.`}
+      description={`by ${book.author_name}. Your reading journal is live, and this page can now generate a before-and-after portrait from the way your notes changed over time.`}
       viewer={viewer}
     >
       <section className="grid gap-6 lg:grid-cols-[0.7fr_1.3fr]">
@@ -76,9 +82,47 @@ export default async function BookPage({ params }: BookPageProps) {
 
           <div className="panel rounded-[28px] p-6 md:p-8">
             <h2 className="text-xl font-semibold">The Book Changed You. How?</h2>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              DeepSeek-powered before-and-after reflection arrives in Stage 6.
-            </p>
+            {savedReflection?.last_generated_at ? (
+              <p className="mt-3 text-sm leading-6 text-muted">
+                Last generated{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                }).format(new Date(savedReflection.last_generated_at))}
+              </p>
+            ) : (
+              <p className="mt-3 text-sm leading-6 text-muted">
+                Generate a short before-and-after portrait from your earliest and latest entries.
+              </p>
+            )}
+
+            <div className="mt-5 rounded-[22px] border border-panel-border bg-white/50 p-5">
+              {savedReflection?.content ? (
+                <div className="space-y-4">
+                  {savedReflection.content.split("\n\n").map((paragraph) => (
+                    <p key={paragraph} className="text-sm leading-7 text-foreground">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm leading-7 text-muted">
+                  No saved reflection yet. Generate one after you have enough journal material.
+                </p>
+              )}
+            </div>
+
+            {!reflectionStatus.ok ? (
+              <p className="mt-4 text-sm text-muted">{reflectionStatus.message}</p>
+            ) : null}
+
+            <div className="mt-5">
+              <BookReflectionForm
+                action={generateBookReflection}
+                bookId={book.id}
+                submitLabel={savedReflection ? "Regenerate reflection" : "Generate reflection"}
+              />
+            </div>
           </div>
         </div>
       </section>

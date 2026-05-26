@@ -83,6 +83,12 @@ They are managed at the repo root or deployment platform level, not inside `fron
 - Entries can be created, edited, and deleted per book
 - Entry timestamps are stored in Supabase and displayed on each entry card
 
+## Book Reflection
+
+- Each book detail page now has a `The Book Changed You. How?` reflection section
+- Reflection generation runs on demand and persists the saved output plus the last-generated timestamp
+- The reflection prompt uses only the selected book's chronological thought entries
+
 ## Current Routes
 
 - `/`
