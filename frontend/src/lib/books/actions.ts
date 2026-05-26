@@ -8,6 +8,8 @@ import {
   validateCoverFile,
 } from "@backend/books/covers";
 import {
+  BOOK_AUTHOR_MAX_LENGTH,
+  BOOK_TITLE_MAX_LENGTH,
   DEFAULT_BOOK_FORM_STATE,
   type BookFormState,
 } from "@backend/books/types";
@@ -33,8 +35,16 @@ function validateBookFields(title: string, authorName: string) {
     return "Book title is required.";
   }
 
+  if (title.length > BOOK_TITLE_MAX_LENGTH) {
+    return `Book titles must be ${BOOK_TITLE_MAX_LENGTH} characters or fewer.`;
+  }
+
   if (!authorName) {
     return "Author name is required.";
+  }
+
+  if (authorName.length > BOOK_AUTHOR_MAX_LENGTH) {
+    return `Author names must be ${BOOK_AUTHOR_MAX_LENGTH} characters or fewer.`;
   }
 
   return null;

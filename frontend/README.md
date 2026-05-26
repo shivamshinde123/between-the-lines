@@ -46,6 +46,13 @@ npm run build
 npm run lint
 ```
 
+## Vercel Deployment
+
+- create the Vercel project from this repository
+- set the project root directory to `frontend/`
+- configure the values from the repo-root `.env.example` in the Vercel project settings
+- only expose the two `NEXT_PUBLIC_SUPABASE_*` values to browser code
+
 ## Environment Variables
 
 The required values are documented in the repository root `.env.example`.

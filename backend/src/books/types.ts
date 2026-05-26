@@ -15,3 +15,6 @@ export type BookFormState = {
 export const DEFAULT_BOOK_FORM_STATE: BookFormState = {
   error: null,
 };
+
+export const BOOK_TITLE_MAX_LENGTH = 160;
+export const BOOK_AUTHOR_MAX_LENGTH = 120;

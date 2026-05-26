@@ -5,6 +5,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Between the Lines",
   description: "A private reading journal with AI-powered literary reflection.",
+  robots: {
+    follow: false,
+    index: false,
+  },
 };
 
 export default function RootLayout({

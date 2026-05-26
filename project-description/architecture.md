@@ -27,6 +27,7 @@
 - Keep tracked environment examples at the repository root.
 - Do not keep environment variable files inside `frontend/`.
 - If the frontend talks directly to Supabase in the browser, the public Supabase URL and publishable key will still be read at runtime by frontend code. Only server-only secrets must stay out of frontend code paths.
+- Vercel should be configured with `frontend/` as the project root directory.
 
 ## Data Platform
 
@@ -52,6 +53,7 @@
 - Keep third-party API keys on the server only
 - Enforce per-user data isolation in both application logic and Supabase policies
 - Validate file type and file size for uploaded covers
+- Validate text input lengths on the server, not only in the browser
 - Require confirmation prompts for destructive actions
 
 ## Expected High-Level Entities

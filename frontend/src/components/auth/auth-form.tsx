@@ -56,12 +56,16 @@ export function AuthForm({ action, footer, mode, title }: AuthFormProps) {
           autoComplete={mode === "login" ? "current-password" : "new-password"}
           required
           minLength={8}
+          maxLength={128}
           className="mt-2 w-full rounded-[18px] border border-panel-border bg-white/70 px-4 py-3 outline-none transition focus:border-accent"
         />
       </div>
 
       {state.error ? (
-        <p className="rounded-[18px] border border-[#9a5b4d]/25 bg-[#9a5b4d]/8 px-4 py-3 text-sm text-[#7c3f31]">
+        <p
+          role="alert"
+          className="rounded-[18px] border border-[#9a5b4d]/25 bg-[#9a5b4d]/8 px-4 py-3 text-sm text-[#7c3f31]"
+        >
           {state.error}
         </p>
       ) : null}

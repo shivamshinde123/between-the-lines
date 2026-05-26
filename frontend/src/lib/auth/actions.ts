@@ -13,6 +13,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_MAX_LENGTH = 128;
 
 function invalidCredentialsState(): AuthFormState {
   return {
@@ -46,6 +47,13 @@ function parseCredentials(formData: FormData): ParsedCredentials {
   if (password.length < PASSWORD_MIN_LENGTH) {
     return {
       error: `Passwords must be at least ${PASSWORD_MIN_LENGTH} characters.`,
+      ok: false,
+    };
+  }
+
+  if (password.length > PASSWORD_MAX_LENGTH) {
+    return {
+      error: `Passwords must be ${PASSWORD_MAX_LENGTH} characters or fewer.`,
       ok: false,
     };
   }

@@ -18,12 +18,19 @@ Between the Lines is a personal book-tracking app with private reading journals 
 
 - tracked environment variable examples live at the repository root in `.env.example`
 - frontend code reads values from the runtime environment rather than keeping env files inside `frontend/`
+- only `NEXT_PUBLIC_*` values are browser-safe; all other keys must stay server-only
 
 ## Current Direction
 
 - Supabase for auth, database, and storage
 - DeepSeek for AI features
 - Vercel for deployment
+
+## Vercel Setup
+
+- set the Vercel project root directory to `frontend/`
+- configure the four environment variables from `.env.example` in the Vercel project settings
+- keep `SUPABASE_SERVICE_ROLE_KEY` and `DEEPSEEK_API_KEY` server-only
 
 ## Working Rule
 

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import {
   DEFAULT_THOUGHT_ENTRY_FORM_STATE,
+  THOUGHT_ENTRY_MAX_LENGTH,
   type ThoughtEntryFormState,
 } from "@backend/entries/types";
 import { getBookForUser } from "@backend/books/queries";
@@ -32,6 +33,10 @@ function validateEntryId(entryId: string) {
 function validateContent(content: string) {
   if (!content) {
     return "Thought entries cannot be empty.";
+  }
+
+  if (content.length > THOUGHT_ENTRY_MAX_LENGTH) {
+    return `Thought entries must be ${THOUGHT_ENTRY_MAX_LENGTH} characters or fewer.`;
   }
 
   return null;

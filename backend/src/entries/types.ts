@@ -19,3 +19,5 @@ export type ThoughtEntryFormState = {
 export const DEFAULT_THOUGHT_ENTRY_FORM_STATE: ThoughtEntryFormState = {
   error: null,
 };
+
+export const THOUGHT_ENTRY_MAX_LENGTH = 5_000;
