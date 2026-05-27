@@ -2,6 +2,10 @@
 
 Between the Lines is a personal book-tracking app with private reading journals and AI-powered reflective insights.
 
+# Current deployed URL:
+
+- https://between-the-lines-app.vercel.app/login
+
 ## The Idea
 
 Between the Lines is a quiet personal reading space. It is built for keeping track of books you read, writing down thoughts as you move through them, and noticing how your voice and perspective shift over time.
@@ -99,6 +103,3 @@ DEEPSEEK_API_KEY=
 
 7. Deploy the project.
 
-Current deployed URL:
-
-- https://between-the-lines-app.vercel.app/login
