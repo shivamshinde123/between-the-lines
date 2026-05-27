@@ -15,6 +15,13 @@ export async function listBooksForUser(userId: string): Promise<BookRecord[]> {
     .order("id", { ascending: true });
 
   if (error) {
+    console.error("listBooksForUser failed", {
+      code: error.code,
+      details: error.details,
+      hint: error.hint,
+      message: error.message,
+      userId,
+    });
     throw new Error("Could not load books.");
   }
 
@@ -31,6 +38,14 @@ export async function getBookForUser(bookId: string, userId: string): Promise<Bo
     .maybeSingle();
 
   if (error) {
+    console.error("getBookForUser failed", {
+      bookId,
+      code: error.code,
+      details: error.details,
+      hint: error.hint,
+      message: error.message,
+      userId,
+    });
     throw new Error("Could not load that book.");
   }
 

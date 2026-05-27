@@ -70,12 +70,12 @@ export function AuthForm({ action, footer, mode, title }: AuthFormProps) {
         </p>
       ) : null}
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="grid gap-4 md:grid-cols-[auto_minmax(0,1fr)] md:items-center">
         <SubmitButton
           idleLabel={title}
           pendingLabel={mode === "login" ? "Signing in..." : "Creating account..."}
         />
-        {footer}
+        <div className="text-sm leading-6 text-muted md:justify-self-end">{footer}</div>
       </div>
     </form>
   );

@@ -40,22 +40,6 @@ type GenerationCheck =
     };
 
 export function canGenerateBookShift(entries: ThoughtEntryRecord[]) {
-  if (entries.length < 2) {
-    return {
-      message: "Add at least two thought entries before generating this reflection.",
-      ok: false,
-    } as const;
-  }
-
-  const totalContentLength = entries.reduce((sum, entry) => sum + entry.content.length, 0);
-
-  if (totalContentLength < 120) {
-    return {
-      message: "Write a little more before generating this reflection.",
-      ok: false,
-    } as const;
-  }
-
   return { ok: true } as const satisfies GenerationCheck;
 }
 
@@ -87,31 +71,7 @@ function buildBookShiftMessages(
 export function canGenerateLibraryInsights(
   entries: LibraryThoughtEntryRecord[],
 ): GenerationCheck {
-  if (entries.length < 3) {
-    return {
-      message: "Add at least three thought entries before generating library insights.",
-      ok: false,
-    };
-  }
-
-  const distinctBooks = new Set(entries.map((entry) => entry.book_id));
-
-  if (distinctBooks.size < 2) {
-    return {
-      message: "Write entries for at least two books before generating library insights.",
-      ok: false,
-    };
-  }
-
-  const totalContentLength = entries.reduce((sum, entry) => sum + entry.content.length, 0);
-
-  if (totalContentLength < 220) {
-    return {
-      message: "Write a little more across your library before generating these insights.",
-      ok: false,
-    };
-  }
-
+  void entries;
   return { ok: true };
 }
 
@@ -198,7 +158,6 @@ async function requestDeepSeekJson(
         max_tokens: maxTokens,
         messages,
         model: DEEPSEEK_MODEL,
-        reasoning_effort: "high",
         response_format: { type: "json_object" },
         stream: false,
         thinking: { type: "disabled" },

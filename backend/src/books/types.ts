@@ -10,10 +10,12 @@ export type BookRecord = {
 
 export type BookFormState = {
   error: string | null;
+  successId: number;
 };
 
 export const DEFAULT_BOOK_FORM_STATE: BookFormState = {
   error: null,
+  successId: 0,
 };
 
 export const BOOK_TITLE_MAX_LENGTH = 160;

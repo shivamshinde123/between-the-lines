@@ -2,15 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import {
-  canGenerateBookShift,
-  canGenerateLibraryInsights,
   generateBookShiftReflection,
   generateReadingVoiceInsight,
   generateRecurringThoughtInsight,
 } from "@backend/insights/deepseek";
 import { listThoughtEntriesForBook, listThoughtEntriesForLibrary } from "@backend/entries/queries";
 import { getBookForUser } from "@backend/books/queries";
-import { getBookShiftInsight } from "@backend/insights/queries";
+import { getBookShiftInsight, getLibraryInsight } from "@backend/insights/queries";
 import {
   DEFAULT_INSIGHT_FORM_STATE,
   type InsightFormState,
@@ -45,14 +43,6 @@ export async function generateBookReflection(
   }
 
   const entries = await listThoughtEntriesForBook(book.id, viewer.id);
-  const generationCheck = canGenerateBookShift(entries);
-
-  if (!generationCheck.ok) {
-    return {
-      error: generationCheck.message,
-    };
-  }
-
   let reflection: string;
 
   try {
@@ -104,6 +94,7 @@ async function saveLibraryInsight(input: {
 }) {
   const supabase = await createClient();
   const now = new Date().toISOString();
+  const existingInsight = await getLibraryInsight(input.insightType, input.userId);
   const insightPayload = {
     book_id: null,
     content: input.content,
@@ -113,10 +104,13 @@ async function saveLibraryInsight(input: {
     user_id: input.userId,
   };
 
-  return await supabase.from("generated_insights").upsert(insightPayload, {
-    ignoreDuplicates: false,
-    onConflict: "user_id,insight_type",
-  });
+  return existingInsight
+    ? await supabase
+        .from("generated_insights")
+        .update(insightPayload)
+        .eq("id", existingInsight.id)
+        .eq("user_id", input.userId)
+    : await supabase.from("generated_insights").insert(insightPayload);
 }
 
 export async function generateReadingVoiceLibraryInsight(
@@ -128,14 +122,6 @@ export async function generateReadingVoiceLibraryInsight(
 
   const viewer = await requireViewer();
   const entries = await listThoughtEntriesForLibrary(viewer.id);
-  const generationCheck = canGenerateLibraryInsights(entries);
-
-  if (!generationCheck.ok) {
-    return {
-      error: generationCheck.message,
-    };
-  }
-
   let content: string;
 
   try {
@@ -172,14 +158,6 @@ export async function generateRecurringThoughtLibraryInsight(
 
   const viewer = await requireViewer();
   const entries = await listThoughtEntriesForLibrary(viewer.id);
-  const generationCheck = canGenerateLibraryInsights(entries);
-
-  if (!generationCheck.ok) {
-    return {
-      error: generationCheck.message,
-    };
-  }
-
   let content: string;
 
   try {

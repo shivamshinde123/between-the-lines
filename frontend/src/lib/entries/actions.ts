@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import {
-  DEFAULT_THOUGHT_ENTRY_FORM_STATE,
   THOUGHT_ENTRY_MAX_LENGTH,
   type ThoughtEntryFormState,
 } from "@backend/entries/types";
@@ -58,11 +57,11 @@ export async function createThoughtEntry(
   const fieldError = validateBookId(bookId) ?? validateContent(content);
 
   if (fieldError) {
-    return { error: fieldError };
+    return { error: fieldError, successId: _previousState.successId };
   }
 
   if (!(await ensureOwnedBook(bookId, viewer.id))) {
-    return { error: "Could not find that book." };
+    return { error: "Could not find that book.", successId: _previousState.successId };
   }
 
   const supabase = await createClient();
@@ -73,12 +72,12 @@ export async function createThoughtEntry(
   });
 
   if (error) {
-    return { error: "Could not save that thought entry." };
+    return { error: "Could not save that thought entry.", successId: _previousState.successId };
   }
 
   revalidatePath(`/books/${bookId}`);
 
-  return DEFAULT_THOUGHT_ENTRY_FORM_STATE;
+  return { error: null, successId: _previousState.successId + 1 };
 }
 
 export async function updateThoughtEntry(
@@ -93,11 +92,11 @@ export async function updateThoughtEntry(
     validateBookId(bookId) ?? validateEntryId(entryId) ?? validateContent(content);
 
   if (fieldError) {
-    return { error: fieldError };
+    return { error: fieldError, successId: _previousState.successId };
   }
 
   if (!(await ensureOwnedBook(bookId, viewer.id))) {
-    return { error: "Could not find that book." };
+    return { error: "Could not find that book.", successId: _previousState.successId };
   }
 
   const supabase = await createClient();
@@ -111,12 +110,12 @@ export async function updateThoughtEntry(
     .maybeSingle();
 
   if (error || !data) {
-    return { error: "Could not update that thought entry." };
+    return { error: "Could not update that thought entry.", successId: _previousState.successId };
   }
 
   revalidatePath(`/books/${bookId}`);
 
-  return DEFAULT_THOUGHT_ENTRY_FORM_STATE;
+  return { error: null, successId: _previousState.successId + 1 };
 }
 
 export async function deleteThoughtEntry(formData: FormData) {

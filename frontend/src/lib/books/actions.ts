@@ -10,7 +10,6 @@ import {
 import {
   BOOK_AUTHOR_MAX_LENGTH,
   BOOK_TITLE_MAX_LENGTH,
-  DEFAULT_BOOK_FORM_STATE,
   type BookFormState,
 } from "@backend/books/types";
 import { requireViewer } from "@/lib/auth/session";
@@ -114,36 +113,31 @@ export async function createBook(
   const fieldError = validateBookFields(title, authorName);
 
   if (fieldError) {
-    return { error: fieldError };
+    return { error: fieldError, successId: _previousState.successId };
   }
+  const uploadedCover = coverFile ? await uploadCover(viewer.id, coverFile) : null;
 
-  if (!coverFile) {
-    return { error: "A cover image is required." };
-  }
-
-  const uploadedCover = await uploadCover(viewer.id, coverFile);
-
-  if (uploadedCover.error) {
-    return { error: uploadedCover.error };
+  if (uploadedCover?.error) {
+    return { error: uploadedCover.error, successId: _previousState.successId };
   }
 
   const supabase = await createClient();
   const { error } = await supabase.from("books").insert({
     author_name: authorName,
-    cover_path: uploadedCover.path,
+    cover_path: uploadedCover?.path ?? null,
     title,
     user_id: viewer.id,
   });
 
   if (error) {
-    await removeCover(uploadedCover.path);
+    await removeCover(uploadedCover?.path ?? null);
 
-    return { error: "Could not save that book." };
+    return { error: "Could not save that book.", successId: _previousState.successId };
   }
 
   revalidatePath("/");
 
-  return DEFAULT_BOOK_FORM_STATE;
+  return { error: null, successId: _previousState.successId + 1 };
 }
 
 export async function updateBook(
@@ -162,7 +156,7 @@ export async function updateBook(
   const fieldError = validateBookFields(title, authorName) ?? bookIdError;
 
   if (fieldError) {
-    return { error: fieldError };
+    return { error: fieldError, successId: _previousState.successId };
   }
 
   let nextCoverPath = existingCoverPath;
@@ -171,7 +165,7 @@ export async function updateBook(
     const uploadedCover = await uploadCover(viewer.id, coverFile);
 
     if (uploadedCover.error) {
-      return { error: uploadedCover.error };
+      return { error: uploadedCover.error, successId: _previousState.successId };
     }
 
     nextCoverPath = uploadedCover.path;
@@ -195,7 +189,7 @@ export async function updateBook(
       await removeCover(nextCoverPath);
     }
 
-    return { error: "Could not update that book." };
+    return { error: "Could not update that book.", successId: _previousState.successId };
   }
 
   if (coverFile && existingCoverPath && nextCoverPath !== existingCoverPath) {
@@ -205,7 +199,7 @@ export async function updateBook(
   revalidatePath("/");
   revalidatePath(`/books/${bookId}`);
 
-  return DEFAULT_BOOK_FORM_STATE;
+  return { error: null, successId: _previousState.successId + 1 };
 }
 
 export async function deleteBook(formData: FormData) {

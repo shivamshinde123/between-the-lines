@@ -11,13 +11,13 @@ export default async function SignupPage() {
     <SiteFrame
       eyebrow="Private access"
       title="Start a private shelf"
-      description="Create a username and password for your private reading journal. The app creates the internal auth identity without exposing email in the UI."
+      description="Track books, save your thoughts as you read, and build a private library that remembers how each one stayed with you."
     >
-      <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(240px,0.65fr)]">
         <div className="panel rounded-[28px] p-6 md:p-8">
           <h2 className="text-xl font-semibold">Create your account</h2>
-          <p className="mt-3 text-sm leading-6 text-muted">
-            Usernames become the visible identity for your library. Passwords stay internal to Supabase Auth.
+          <p className="mt-3 max-w-[34ch] text-sm leading-6 text-muted">
+            Start a personal reading journal for the books you finish and the thoughts they leave behind.
           </p>
           <div className="mt-6">
             <AuthForm
@@ -37,12 +37,10 @@ export default async function SignupPage() {
         </div>
 
         <div className="panel rounded-[28px] p-6 md:p-8">
-          <h2 className="text-xl font-semibold">Account protections</h2>
-          <ul className="mt-5 space-y-3 text-sm leading-6 text-muted">
-            <li>Every account gets its own profile row and private session.</li>
-            <li>Books, entries, and insights stay isolated by user ID.</li>
-            <li>Server-only keys remain out of browser code paths.</li>
-          </ul>
+          <p className="text-sm uppercase tracking-[0.22em] text-muted">Between the Lines</p>
+          <p className="mt-5 max-w-[24ch] text-sm leading-7 text-muted">
+            A quiet place for your books, your notes, and the patterns that return across them.
+          </p>
 
           <Link
             href="/login"

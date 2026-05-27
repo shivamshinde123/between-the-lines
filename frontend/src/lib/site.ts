@@ -21,15 +21,6 @@ export const plannedRoutes = [
   },
 ] as const;
 
-export const stageMilestones = [
-  "Scaffold the Next.js application and shared route shell.",
-  "Establish the Supabase data platform and private storage rules.",
-  "Add username-based authentication with guarded private routes.",
-  "Make the private library usable with book CRUD and cover uploads.",
-  "Complete the journal core with chronological thought entry CRUD.",
-  "Add book-level AI reflection backed by DeepSeek and saved insight state.",
-] as const;
-
 export function hasUniqueRoutes() {
   return new Set(plannedRoutes.map((route) => route.href)).size === plannedRoutes.length;
 }
