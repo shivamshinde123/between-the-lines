@@ -2,36 +2,35 @@
 
 Between the Lines is a personal book-tracking app with private reading journals and AI-powered reflective insights.
 
-## Repository Layout
+## The Idea
 
-- `frontend/`: Next.js web application
-- `backend/`: reusable backend/domain logic and server-side data logic used by the app
-- `project-description/`: persistent project context, requirements, roadmap, and progress notes
+Between the Lines is a quiet personal reading space. It is built for keeping track of books you read, writing down thoughts as you move through them, and noticing how your voice and perspective shift over time.
 
-## Frontend/Backend Boundary
+The app is private and reflective rather than social. It is meant to feel like your own reading room, not a public bookshelf.
 
-- `frontend/` owns UI routes, client components, Supabase runtime adapters, session guards, and thin Next.js server action entrypoints
-- `backend/` owns reusable domain types, queries, prompt generation, file validation, and other server-side business logic
-- deployment still runs as a single Next.js app rather than separate frontend and backend runtimes
+## What You Can Do
 
-## Environment
+- create a private account with a username and password
+- add books to your library
+- optionally upload a cover image for each book
+- browse your books on the home page in alphabetical order
+- search your library in real time
+- edit or delete books
+- open a book and add multiple thought entries as you read
+- edit or delete each thought entry individually
+- keep your notes in chronological order with timestamps
 
-- tracked environment variable examples live at the repository root in `.env.example`
-- frontend code reads values from the runtime environment rather than keeping env files inside `frontend/`
-- only `NEXT_PUBLIC_*` values are browser-safe; all other keys must stay server-only
+## Insights
 
-## Current Direction
+Between the Lines also includes AI-powered reflective features built from your own journal entries.
 
-- Supabase for auth, database, and storage
-- DeepSeek for AI features
-- Vercel for deployment
+- **The Book Changed You. How?**
+  Generate a short reflection for each book based on the thoughts you have written about it.
 
-## Vercel Setup
+- **Your Reading Voice Over Time**
+  Look across your library and see how your tone, attention, and way of reading evolve.
 
-- set the Vercel project root directory to `frontend/`
-- configure the four environment variables from `.env.example` in the Vercel project settings
-- keep `SUPABASE_SERVICE_ROLE_KEY` and `DEEPSEEK_API_KEY` server-only
+- **The Thought You Keep Having**
+  Surface the recurring idea or concern that keeps appearing across different books and entries.
 
-## Working Rule
-
-App code should live in the product folders such as `frontend/` and `backend/`. Planning material stays in `project-description/`.
+These insights are generated on demand and are based on your private notes.
