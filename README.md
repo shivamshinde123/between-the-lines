@@ -34,3 +34,65 @@ Between the Lines also includes AI-powered reflective features built from your o
   Surface the recurring idea or concern that keeps appearing across different books and entries.
 
 These insights are generated on demand and are based on your private notes.
+
+## Run Locally
+
+1. Go into the app folder:
+
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Create `frontend/.env.local` and add:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+DEEPSEEK_API_KEY=
+```
+
+4. Start the app:
+
+```bash
+npm run dev
+```
+
+5. Open:
+
+```text
+http://localhost:3000
+```
+
+## Deploy on Vercel
+
+1. Push the repository to GitHub.
+2. Import the repository into Vercel.
+3. Set the project Root Directory to:
+
+```text
+frontend
+```
+
+4. Enable including files outside the root directory during the build.
+   This app needs that because `frontend/` imports shared code from `backend/`.
+5. Add these environment variables in Vercel Project Settings:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+DEEPSEEK_API_KEY=
+```
+
+6. Deploy the project.
+
+Current deployed URL:
+
+- https://between-the-lines-app.vercel.app/login
