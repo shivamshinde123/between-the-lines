@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 type HiddenField = {
   name: string;
@@ -26,7 +26,28 @@ export function ConfirmSubmitButton({
 }: ConfirmSubmitButtonProps) {
   const [open, setOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const cancelButtonRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    cancelButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
 
   return (
     <>
@@ -45,7 +66,12 @@ export function ConfirmSubmitButton({
 
       {open ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(26,20,15,0.28)] px-4">
-          <div className="panel w-full max-w-md rounded-[28px] px-6 py-6 md:px-7">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            className="panel w-full max-w-md rounded-[28px] px-6 py-6 md:px-7"
+          >
             <p id={titleId} className="display-title text-3xl leading-none text-foreground">
               {title}
             </p>
@@ -53,6 +79,7 @@ export function ConfirmSubmitButton({
 
             <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
               <button
+                ref={cancelButtonRef}
                 type="button"
                 onClick={() => setOpen(false)}
                 className="rounded-full border border-panel-border bg-white/75 px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white"

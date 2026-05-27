@@ -8,7 +8,7 @@ import {
 } from "@/lib/insights/actions";
 import { requireViewer } from "@/lib/auth/session";
 import { listBooksForUser } from "@backend/books/queries";
-import { listThoughtEntriesForBook, listThoughtEntriesForLibrary } from "@backend/entries/queries";
+import { listThoughtEntriesForLibrary } from "@backend/entries/queries";
 import { canGenerateLibraryInsights } from "@backend/insights/deepseek";
 import { getLibraryInsight, listBookShiftInsightsForUser } from "@backend/insights/queries";
 import {
@@ -54,11 +54,10 @@ export default async function InsightsPage() {
       .filter((reflection) => reflection.book_id)
       .map((reflection) => [reflection.book_id as string, reflection]),
   );
-  const bookEntriesByBookId = new Map(
-    await Promise.all(
-      books.map(async (book) => [book.id, await listThoughtEntriesForBook(book.id, viewer.id)] as const),
-    ),
-  );
+  const bookEntryCountByBookId = entries.reduce((counts, entry) => {
+    counts.set(entry.book_id, (counts.get(entry.book_id) ?? 0) + 1);
+    return counts;
+  }, new Map<string, number>());
 
   return (
     <SiteFrame
@@ -91,7 +90,7 @@ export default async function InsightsPage() {
                 const hasSavedReflection = Boolean(
                   savedReflection?.content?.trim() || savedReflection?.last_generated_at,
                 );
-                const entryCount = bookEntriesByBookId.get(book.id)?.length ?? 0;
+                const entryCount = bookEntryCountByBookId.get(book.id) ?? 0;
 
                 return (
                   <div key={book.id} className="rounded-[24px] border border-panel-border bg-white/52 p-5">
