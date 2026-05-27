@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import {
   DEFAULT_THOUGHT_ENTRY_FORM_STATE,
   THOUGHT_ENTRY_MAX_LENGTH,
@@ -15,7 +15,9 @@ type EntryFormProps = {
   bookId: string;
   content?: string;
   entryId?: string;
+  onSuccess?: () => void;
   placeholder: string;
+  resetOnSuccess?: boolean;
   submitLabel: string;
 };
 
@@ -24,16 +26,31 @@ export function EntryForm({
   bookId,
   content = "",
   entryId,
+  onSuccess,
   placeholder,
+  resetOnSuccess = false,
   submitLabel,
 }: EntryFormProps) {
   const [state, formAction, pending] = useActionState(
     action,
     DEFAULT_THOUGHT_ENTRY_FORM_STATE,
   );
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state.error || state.successId === 0) {
+      return;
+    }
+
+    if (resetOnSuccess) {
+      formRef.current?.reset();
+    }
+
+    onSuccess?.();
+  }, [onSuccess, resetOnSuccess, state.error, state.successId]);
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form ref={formRef} action={formAction} className="space-y-4">
       <input type="hidden" name="bookId" value={bookId} />
       {entryId ? <input type="hidden" name="entryId" value={entryId} /> : null}
 

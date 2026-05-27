@@ -9,15 +9,14 @@ export default async function LoginPage() {
 
   return (
     <SiteFrame
-      eyebrow="Private access"
       title="Log back into your library"
-      description="Sign in with the username you chose for Between the Lines. The app handles the internal auth email behind the scenes."
+      description="Track books, save your thoughts as you read, and return to the patterns your library reveals."
     >
-      <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(240px,0.65fr)]">
         <div className="panel rounded-[28px] p-6 md:p-8">
           <h2 className="text-xl font-semibold">Welcome back</h2>
-          <p className="mt-3 text-sm leading-6 text-muted">
-            Your library, entries, and later insights all stay scoped to your own account.
+          <p className="mt-3 max-w-[34ch] text-sm leading-6 text-muted">
+            A private reading journal for books, thoughts, and the shifts they leave behind.
           </p>
           <div className="mt-6">
             <AuthForm
@@ -37,12 +36,10 @@ export default async function LoginPage() {
         </div>
 
         <div className="panel rounded-[28px] p-6 md:p-8">
-          <p className="text-sm uppercase tracking-[0.22em] text-muted">How this works</p>
-          <ul className="mt-5 space-y-3 text-sm leading-6 text-muted">
-            <li>Username-first sign-in keeps email out of the normal product flow.</li>
-            <li>Protected routes redirect here when there is no valid session.</li>
-            <li>Book data remains private through session checks and Supabase RLS.</li>
-          </ul>
+          <p className="text-sm uppercase tracking-[0.22em] text-muted">Between the Lines</p>
+          <p className="mt-5 max-w-[24ch] text-sm leading-7 text-muted">
+            Keep your shelf, your notes, and your reading voice in one place.
+          </p>
 
           <Link
             href="/signup"

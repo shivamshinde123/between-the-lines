@@ -276,7 +276,7 @@ for update
 to authenticated
 using (
   bucket_id = 'book-covers'
-  and owner_id = (select auth.uid())
+  and owner_id = (select auth.uid()::text)
 )
 with check (
   bucket_id = 'book-covers'
@@ -289,5 +289,5 @@ for delete
 to authenticated
 using (
   bucket_id = 'book-covers'
-  and owner_id = (select auth.uid())
+  and owner_id = (select auth.uid()::text)
 );

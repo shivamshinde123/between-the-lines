@@ -14,10 +14,12 @@ export type LibraryThoughtEntryRecord = ThoughtEntryRecord & {
 
 export type ThoughtEntryFormState = {
   error: string | null;
+  successId: number;
 };
 
 export const DEFAULT_THOUGHT_ENTRY_FORM_STATE: ThoughtEntryFormState = {
   error: null,
+  successId: 0,
 };
 
 export const THOUGHT_ENTRY_MAX_LENGTH = 5_000;

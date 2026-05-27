@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import {
   BOOK_AUTHOR_MAX_LENGTH,
   BOOK_TITLE_MAX_LENGTH,
@@ -16,6 +16,8 @@ type BookFormProps = {
   coverRequired: boolean;
   existingCoverPath?: string | null;
   footer?: ReactNode;
+  onSuccess?: () => void;
+  resetOnSuccess?: boolean;
   submitLabel: string;
   title?: string;
 };
@@ -27,19 +29,34 @@ export function BookForm({
   coverRequired,
   existingCoverPath = null,
   footer,
+  onSuccess,
+  resetOnSuccess = false,
   submitLabel,
   title = "",
 }: BookFormProps) {
   const [state, formAction, pending] = useActionState(action, DEFAULT_BOOK_FORM_STATE);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state.error || state.successId === 0) {
+      return;
+    }
+
+    if (resetOnSuccess) {
+      formRef.current?.reset();
+    }
+
+    onSuccess?.();
+  }, [onSuccess, resetOnSuccess, state.error, state.successId]);
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form ref={formRef} action={formAction} className="space-y-5">
       {bookId ? <input type="hidden" name="bookId" value={bookId} /> : null}
       <input type="hidden" name="existingCoverPath" value={existingCoverPath ?? ""} />
 
       <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <label className="text-xs uppercase tracking-[0.22em] text-muted" htmlFor={bookId ? `title-${bookId}` : "title-create"}>
+          <label className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-muted" htmlFor={bookId ? `title-${bookId}` : "title-create"}>
             Book title
           </label>
           <input
@@ -48,13 +65,13 @@ export function BookForm({
             defaultValue={title}
             required
             maxLength={BOOK_TITLE_MAX_LENGTH}
-            className="mt-2 w-full rounded-[18px] border border-panel-border bg-white/70 px-4 py-3 outline-none transition focus:border-accent"
+            className="paper-input mt-2 w-full rounded-sm px-4 py-3"
           />
         </div>
 
         <div>
           <label
-            className="text-xs uppercase tracking-[0.22em] text-muted"
+            className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-muted"
             htmlFor={bookId ? `author-${bookId}` : "author-create"}
           >
             Author
@@ -65,7 +82,7 @@ export function BookForm({
             defaultValue={authorName}
             required
             maxLength={BOOK_AUTHOR_MAX_LENGTH}
-            className="mt-2 w-full rounded-[18px] border border-panel-border bg-white/70 px-4 py-3 outline-none transition focus:border-accent"
+            className="paper-input mt-2 w-full rounded-sm px-4 py-3"
           />
         </div>
       </div>
@@ -73,10 +90,10 @@ export function BookForm({
       <div>
         <div className="flex items-center justify-between gap-3">
           <label
-            className="text-xs uppercase tracking-[0.22em] text-muted"
+            className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-muted"
             htmlFor={bookId ? `cover-${bookId}` : "cover-create"}
           >
-            Cover image
+            Cover image {coverRequired ? "" : "(Optional)"}
           </label>
           <span className="text-xs text-muted">PNG, JPEG, WebP, or AVIF up to 5 MB</span>
         </div>
@@ -86,7 +103,7 @@ export function BookForm({
           type="file"
           accept="image/png,image/jpeg,image/webp,image/avif"
           required={coverRequired}
-          className="mt-2 block w-full text-sm text-muted file:mr-4 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-sm file:font-medium file:text-white"
+          className="mt-2 block w-full text-sm text-muted file:mr-4 file:rounded-sm file:border-0 file:bg-accent file:px-4 file:py-2 file:text-sm file:font-medium file:text-white"
         />
       </div>
 
@@ -99,11 +116,11 @@ export function BookForm({
         </p>
       ) : null}
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="submit"
           disabled={pending}
-          className="rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-70"
+          className="rounded-sm bg-accent px-5 py-3 text-sm font-medium tracking-[0.08em] text-white uppercase transition-opacity disabled:cursor-not-allowed disabled:opacity-70"
         >
           {pending ? "Saving..." : submitLabel}
         </button>

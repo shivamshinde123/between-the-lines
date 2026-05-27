@@ -51,3 +51,24 @@ export async function getLibraryInsight(
   return data satisfies GeneratedInsightRecord | null;
 }
 
+export async function listBookShiftInsightsForUser(
+  userId: string,
+): Promise<GeneratedInsightRecord[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("generated_insights")
+    .select(
+      "id, user_id, book_id, scope, insight_type, content, last_generated_at, updated_at",
+    )
+    .eq("user_id", userId)
+    .eq("scope", "book")
+    .eq("insight_type", "book_shift")
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    throw new Error("Could not load saved book reflections.");
+  }
+
+  return data satisfies GeneratedInsightRecord[];
+}
+

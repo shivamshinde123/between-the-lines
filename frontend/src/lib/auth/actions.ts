@@ -114,6 +114,12 @@ export async function signup(
   });
 
   if (error || !data.user) {
+    console.error("signup createUser failed", {
+      email,
+      error,
+      hasUser: Boolean(data.user),
+      username: parsed.username,
+    });
     return {
       error: "Could not create your account with those details.",
     };
@@ -125,6 +131,12 @@ export async function signup(
   });
 
   if (profileError) {
+    console.error("signup profile insert failed", {
+      email,
+      profileError,
+      userId: data.user.id,
+      username: parsed.username,
+    });
     await admin.auth.admin.deleteUser(data.user.id);
 
     return {
@@ -139,6 +151,12 @@ export async function signup(
   });
 
   if (signInError) {
+    console.error("signup first sign-in failed", {
+      email,
+      signInError,
+      userId: data.user.id,
+      username: parsed.username,
+    });
     return {
       error: "Account created, but the first sign-in could not be completed. Please try logging in.",
     };
