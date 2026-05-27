@@ -74,15 +74,21 @@ http://localhost:3000
 
 1. Push the repository to GitHub.
 2. Import the repository into Vercel.
-3. Set the project Root Directory to:
+3. When Vercel asks for the framework, select:
+
+```text
+Next.js
+```
+
+4. Set the project Root Directory to:
 
 ```text
 frontend
 ```
 
-4. Enable including files outside the root directory during the build.
+5. Enable including files outside the root directory during the build.
    This app needs that because `frontend/` imports shared code from `backend/`.
-5. Add these environment variables in Vercel Project Settings:
+6. Add these environment variables in Vercel Project Settings:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
@@ -91,7 +97,7 @@ SUPABASE_SERVICE_ROLE_KEY=
 DEEPSEEK_API_KEY=
 ```
 
-6. Deploy the project.
+7. Deploy the project.
 
 Current deployed URL:
 
